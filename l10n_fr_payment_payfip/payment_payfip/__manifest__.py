@@ -8,8 +8,7 @@
     'category': 'Accounting',
 
     'depends': [
-        'payment',
-        'l10n_fr'
+        'payment'
     ],
     'qweb': [],
     'init_xml': [],

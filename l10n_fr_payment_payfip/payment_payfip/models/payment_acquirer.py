@@ -4,7 +4,6 @@ import urllib.parse
 from requests.exceptions import ConnectionError
 from odoo.exceptions import ValidationError
 from xml.etree import ElementTree
-from odoo.http import request
 
 from odoo import api, fields, models, _
 
@@ -22,8 +21,7 @@ class PayFIPAcquirer(models.Model):
     # endregion
 
     # region Fields declaration
-    provider = fields.Selection(selection_add=[('payfip', 'PayFIP')], ondelete={
-                                'payfip': 'set default'})
+    provider = fields.Selection(selection_add=[('payfip', 'PayFIP')], ondelete={'payfip': 'set default'})
 
     journal_id = fields.Many2one('account.journal', store=True)
 
@@ -55,8 +53,6 @@ class PayFIPAcquirer(models.Model):
             webservice_enabled, message = self._payfip_check_web_service()
             if not webservice_enabled:
                 raise ValidationError(message)
-            else:
-                return True
 
     # endregion
 
@@ -70,11 +66,27 @@ class PayFIPAcquirer(models.Model):
     def _get_soap_url(self):
         return "https://www.tipi-client.budget.gouv.fr/tpa/services/securite"
 
+
     def _get_soap_namespaces(self):
         return {
             'ns1': "http://securite.service.tpa.cp.finances.gouv.fr/services/mas_securite/"
                    "contrat_paiement_securise/PaiementSecuriseService"
         }
+
+    def _get_feature_support(self):
+        """Get advanced feature support by provider.
+
+        Each provider should add its technical in the corresponding
+        key for the following features:
+            * fees: support payment fees computations
+            * authorize: support authorizing payment (separates
+                         authorization and capture)
+            * tokenize: support saving payment data in a payment.tokenize
+                        object
+        """
+        res = super(PayFIPAcquirer, self)._get_feature_support()
+        res['authorize'].append('payfip')
+        return res
 
     def payfip_get_form_action_url(self):
         self.ensure_one()
@@ -83,6 +95,7 @@ class PayFIPAcquirer(models.Model):
     def payfip_get_id_op_from_web_service(self, email, price, object, acquirer_reference):
         self.ensure_one()
         id_op = ''
+
         mode = 'TEST'
         if self.state == 'prod':
             mode = 'PRODUCTION'
@@ -90,12 +103,9 @@ class PayFIPAcquirer(models.Model):
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
         exer = fields.Datetime.now().year
         numcli = self.payfip_customer_number
-        saisie = 'X' if self.payfip_activation_mode else (
-            'T' if mode == 'TEST' else 'W')
-        urlnotif = '%s' % urllib.parse.urljoin(
-            base_url, PayFIPController._notification_url)
-        urlredirect = '%s' % urllib.parse.urljoin(
-            base_url, PayFIPController._return_url)
+        saisie = 'X' if self.payfip_activation_mode else ('T' if mode == 'TEST' else 'W')
+        urlnotif = '%s' % urllib.parse.urljoin(base_url, PayFIPController._notification_url)
+        urlredirect = '%s' % urllib.parse.urljoin(base_url, PayFIPController._return_url)
 
         soap_body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
                     'xmlns:pai="http://securite.service.tpa.cp.finances.gouv.fr/services/mas_securite/' \
@@ -120,8 +130,7 @@ class PayFIPAcquirer(models.Model):
             </soapenv:Envelope>
             """ % (exer, email, price, numcli, object, acquirer_reference, saisie, urlnotif, urlredirect)
         try:
-            response = requests.post(self._get_soap_url(), data=soap_body, headers={
-                                     'content-type': 'text/xml'})
+            response = requests.post(self._get_soap_url(), data=soap_body, headers={'content-type': 'text/xml'})
         except ConnectionError:
             return id_op
 
@@ -163,8 +172,7 @@ class PayFIPAcquirer(models.Model):
             """ % idOp
 
         try:
-            soap_response = requests.post(soap_url, data=soap_body, headers={
-                                          'content-type': 'text/xml'})
+            soap_response = requests.post(soap_url, data=soap_body, headers={'content-type': 'text/xml'})
         except ConnectionError:
             return data
 
@@ -180,20 +188,15 @@ class PayFIPAcquirer(models.Model):
                     error.get('severity'),
                 )
             )
-            data = {
-                'code': error.get('code'),
-            }
             return data
 
         response = root.find('.//return')
         if response is None:
-            raise Exception(
-                "No result found for transaction with idOp: %s" % idOp)
+            raise Exception("No result found for transaction with idOp: %s" % idOp)
 
         resultrans = response.find('resultrans')
         if resultrans is None:
-            raise Exception(
-                "No result found for transaction with idOp: %s" % idOp)
+            raise Exception("No result found for transaction with idOp: %s" % idOp)
 
         dattrans = response.find('dattrans')
         heurtrans = response.find('heurtrans')
@@ -223,6 +226,7 @@ class PayFIPAcquirer(models.Model):
 
     def _payfip_check_web_service(self):
         self.ensure_one()
+
         error = _("It would appear that the customer number entered is not valid or that the PayFIP contract is "
                   "not properly configured.")
 
@@ -246,15 +250,12 @@ class PayFIPAcquirer(models.Model):
         )
 
         try:
-            soap_response = requests.post(soap_url, data=soap_body, headers={
-                                          'content-type': 'text/xml'})
-
+            soap_response = requests.post(soap_url, data=soap_body, headers={'content-type': 'text/xml'})
         except ConnectionError:
             return False, error
 
         root = ElementTree.fromstring(soap_response.content)
-        fault = root.find(
-            './/S:Fault', {'S': 'http://schemas.xmlsoap.org/soap/envelope/'})
+        fault = root.find('.//S:Fault', {'S': 'http://schemas.xmlsoap.org/soap/envelope/'})
 
         if fault is not None:
             error_desc = fault.find('.//descriptif')
@@ -264,15 +265,18 @@ class PayFIPAcquirer(models.Model):
 
         return True, ''
 
+    def toggle_payfip_activation_mode_value(self):
+        in_activation = self.filtered(lambda acquirer: acquirer.payfip_activation_mode)
+        in_activation.write({'payfip_activation_mode': False})
+        (self - in_activation).write({'payfip_activation_mode': True})
+
     def _get_errors_from_webservice(self, root):
         errors = []
 
         namespaces = self._get_soap_namespaces()
         error_functionnal = root.find('.//ns1:FonctionnelleErreur', namespaces)
-        error_dysfonctionnal = root.find(
-            './/ns1:TechDysfonctionnementErreur', namespaces)
-        error_unavailabilityl = root.find(
-            './/ns1:TechIndisponibiliteErreur', namespaces)
+        error_dysfonctionnal = root.find('.//ns1:TechDysfonctionnementErreur', namespaces)
+        error_unavailabilityl = root.find('.//ns1:TechIndisponibiliteErreur', namespaces)
         error_protocol = root.find('.//ns1:TechProtocolaireErreur', namespaces)
 
         if error_functionnal is not None:
@@ -328,3 +332,4 @@ class PayFIPAcquirer(models.Model):
         if request and request.httprequest.url_root:
             return request.httprequest.url_root
         return super().get_base_url()
+

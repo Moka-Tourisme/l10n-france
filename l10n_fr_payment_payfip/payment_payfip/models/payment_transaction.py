@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
 import logging
+import pytz
 import uuid
 from werkzeug import urls
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models, _
 from odoo.tools import float_round
 from odoo.exceptions import ValidationError
 
@@ -54,6 +55,12 @@ class PayFIPTransaction(models.Model):
 
     # endregion
 
+    # region Fields method
+    # endregion
+
+    # region Constrains and Onchange
+    # endregion
+    # region CRUD (overrides)
     def create(self, vals):
         res = super(PayFIPTransaction, self).create(vals)
         if res.acquirer_id.provider == 'payfip':
@@ -61,11 +68,9 @@ class PayFIPTransaction(models.Model):
             email = res.partner_email
             amount = int(float_round(res.amount * 100.0, prec))
             reference = res.reference.replace('-', ' ')
-            acquirer_reference = '%.15d' % int(
-                uuid.uuid4().int % 899999999999999)
+            acquirer_reference = '%.15d' % int(uuid.uuid4().int % 899999999999999)
             res.acquirer_reference = acquirer_reference
-            idop = res.acquirer_id.payfip_get_id_op_from_web_service(
-                email, amount, reference, acquirer_reference)
+            idop = res.acquirer_id.payfip_get_id_op_from_web_service(email, amount, reference, acquirer_reference)
             res.payfip_operation_identifier = idop
 
         return res
@@ -89,47 +94,39 @@ class PayFIPTransaction(models.Model):
             'saisie': 'W' if self.acquirer_id.state == 'prod' else 'T',
         }
 
-    @api.model
-    def _get_tx_from_feedback_data(self, provider, data):
-        """ Override of payment to find the transaction based on Payfip data.
+    def _payfip_form_get_tx_from_data(self, idop):
+        if not idop:
+            error_msg = _('PayFIP: received data with missing idop!')
+            _logger.error(error_msg)
+            raise ValidationError(error_msg)
 
-        param str provider: The provider of the acquirer that handled the transaction
-        :param dict data: The feedback data sent by the provider
-        :return: The transaction if found
-        :rtype: recordset of `payment.transaction`
-        :raise: ValidationError if the data match no transaction
-        """
-        tx = super()._get_tx_from_feedback_data(provider, data)
-        if provider != 'payfip':
-            return tx
+        # find tx -> @TDENOTE use txn_id ?
+        txs = self.env['payment.transaction'].sudo().search([('payfip_operation_identifier', '=', idop)])
 
-        reference = data["objet"]
-        tx = self.sudo().search(
-            [('reference', '=', reference), ('provider', '=', 'payfip')])
-        if not tx:
-            raise ValidationError(
-                "PayFIP: " +
-                _("No transaction found matching reference %s.", reference)
-            )
-        return tx
+        if not txs or len(txs) > 1:
+            error_msg = 'PayFIP: received data for idop %s' % idop
+            if not txs:
+                error_msg += '; no order found'
+            else:
+                error_msg += '; multiple order found'
+            _logger.error(error_msg)
+            raise ValidationError(error_msg)
+        return txs[0]
 
-    def _process_feedback_data(self, feedback_data):
-        data = self.acquirer_id.payfip_get_result_from_web_service(
-            feedback_data.get('idOp'))
+    def _process_feedback_data(self, idop=False):
+        data = self.acquirer_id.payfip_get_result_from_web_service(idop)
 
-        refdet = feedback_data.get('refdet', False)
-        self.acquirer_reference = refdet
-
-        if data.get('code'):
-            self._set_pending()
+        if not data:
+            return False
 
         self.ensure_one()
 
         result = data.get('resultrans', False)
         if not result:
-            self._set_pending()
+            return False
 
         payfip_amount = int(data.get('montant', 0)) / 100
+
         if result in ['P', 'V']:
             self._set_done()
             self.write({
@@ -157,3 +154,37 @@ class PayFIPTransaction(models.Model):
                 'payfip_amount': payfip_amount,
             })
             return True
+        else:
+            message = 'Received unrecognized status for PayFIP payment %s: %s, set as error' % (
+                self.reference,
+                result
+            )
+            self._set_error(
+                state_message=message
+            )
+            self.write({
+                'payfip_state': 'U',
+            })
+            return False
+
+    @api.model
+    def _get_tx_from_feedback_data(self, provider, data):
+        """ Override of payment to find the transaction based on Payfip data.
+
+        param str provider: The provider of the acquirer that handled the transaction
+        :param dict data: The feedback data sent by the provider
+        :return: The transaction if found
+        :rtype: recordset of `payment.transaction`
+        :raise: ValidationError if the data match no transaction
+        """
+        tx = super()._get_tx_from_feedback_data(provider, data)
+        if provider != 'payfip':
+            return tx
+
+        reference = data
+        tx = self.sudo().search([('payfip_operation_identifier', '=', reference), ('provider', '=', 'payfip')])
+        if not tx:
+            raise ValidationError(
+                "PayFIP: " + _("No transaction found matching reference %s.", reference)
+            )
+        return tx
