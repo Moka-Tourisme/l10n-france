@@ -120,7 +120,7 @@ class PayFIPTest(PayFIPCommon):
 
         with self.assertRaises(ValidationError):
             self.env['payment.transaction']._handle_feedback_data(
-                'payfip', payfip_post_data)
+                'payfip', payfip_post_data['idOp'])
 
         tx = self.create_transaction(flow='redirect')
 
@@ -133,7 +133,7 @@ class PayFIPTest(PayFIPCommon):
 
         tx.write({'state': 'draft', 'acquirer_reference': False})
 
-        payfip_post_data['idOp'] = 'd4a40f3e-5186-4e3f-a74c-213279cb82f1'
+        payfip_post_data = 'd4a40f3e-5186-4e3f-a74c-213279cb82f1'
         self.env['payment.transaction']._handle_feedback_data(
             'payfip', payfip_post_data)
         self.assertEqual(
@@ -143,7 +143,7 @@ class PayFIPTest(PayFIPCommon):
 
         tx.write({'state': 'draft', 'acquirer_reference': False})
 
-        payfip_post_data['idOp'] = '580f47c5-dc72-40d3-86c0-ae104ef48797'
+        payfip_post_data = '580f47c5-dc72-40d3-86c0-ae104ef48797'
         self.env['payment.transaction']._handle_feedback_data(
             'payfip', payfip_post_data)
         self.assertEqual(

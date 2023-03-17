@@ -7,6 +7,7 @@ from xml.etree import ElementTree
 from odoo.http import request
 
 from odoo import api, fields, models, _
+from odoo.osv import expression
 
 from ..controllers.main import PayFIPController
 
@@ -23,7 +24,10 @@ class PayFIPAcquirer(models.Model):
 
     # region Fields declaration
     provider = fields.Selection(selection_add=[('payfip', 'PayFIP')], ondelete={
-                                'payfip': 'set default'})
+        'payfip': 'set default'})
+
+    state = fields.Selection(selection_add=[('activation', 'Activation')], ondelete={
+        'activation': 'set default'})
 
     journal_id = fields.Many2one('account.journal', store=True)
 
@@ -35,6 +39,21 @@ class PayFIPAcquirer(models.Model):
     payfip_form_action_url = fields.Char(
         string="Form action URL",
         required_if_provider='payfip',
+    )
+
+    payfip_base_url = fields.Char(
+        string="Base URL",
+        required_if_provider='payfip',
+    )
+
+    payfip_notification_url = fields.Char(
+        string="Notification URL",
+        required_if_provider='payfip'
+    )
+
+    payfip_redirect_url = fields.Char(
+        string="Return URL",
+        required_if_provider='payfip'
     )
 
     payfip_activation_mode = fields.Boolean(
@@ -62,6 +81,28 @@ class PayFIPAcquirer(models.Model):
 
     # region CRUD (overrides)
     # endregion
+    @api.model
+    def _get_compatible_acquirers(
+            self, company_id, partner_id, currency_id=None, force_tokenization=False,
+            is_validation=False, **kwargs
+    ):
+        # Compute the base domain for compatible acquirers
+        domain = ['&', ('state', 'in', ['enabled', 'test', 'activation']), ('company_id', '=', company_id)]
+
+        # Handle partner country
+        partner = self.env['res.partner'].browse(partner_id)
+        if partner.country_id:  # The partner country must either not be set or be supported
+            domain = expression.AND([
+                domain,
+                ['|', ('country_ids', '=', False), ('country_ids', 'in', [partner.country_id.id])]
+            ])
+
+        # Handle tokenization support requirements
+        if force_tokenization or self._is_tokenization_required(**kwargs):
+            domain = expression.AND([domain, [('allow_tokenization', '=', True)]])
+
+        compatible_acquirers = self.env['payment.acquirer'].search(domain)
+        return compatible_acquirers
 
     # region Actions
     # endregion
@@ -83,19 +124,19 @@ class PayFIPAcquirer(models.Model):
     def payfip_get_id_op_from_web_service(self, email, price, object, acquirer_reference):
         self.ensure_one()
         id_op = ''
-        mode = 'TEST'
-        if self.state == 'prod':
-            mode = 'PRODUCTION'
-
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        if self.state == 'enabled':
+            saisie_value = 'W'
+        elif self.state == 'activation':
+            saisie_value = 'X'
+        else:
+            saisie_value = 'T'
+
         exer = fields.Datetime.now().year
         numcli = self.payfip_customer_number
-        saisie = 'X' if self.payfip_activation_mode else (
-            'T' if mode == 'TEST' else 'W')
-        urlnotif = '%s' % urllib.parse.urljoin(
-            base_url, PayFIPController._notification_url)
-        urlredirect = '%s' % urllib.parse.urljoin(
-            base_url, PayFIPController._return_url)
+        saisie = saisie_value
+        urlnotif = self.payfip_notification_url
+        urlredirect = self.payfip_redirect_url
 
         soap_body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
                     'xmlns:pai="http://securite.service.tpa.cp.finances.gouv.fr/services/mas_securite/' \
@@ -121,7 +162,7 @@ class PayFIPAcquirer(models.Model):
             """ % (exer, email, price, numcli, object, acquirer_reference, saisie, urlnotif, urlredirect)
         try:
             response = requests.post(self._get_soap_url(), data=soap_body, headers={
-                                     'content-type': 'text/xml'})
+                'content-type': 'text/xml'})
         except ConnectionError:
             return id_op
 
@@ -164,7 +205,7 @@ class PayFIPAcquirer(models.Model):
 
         try:
             soap_response = requests.post(soap_url, data=soap_body, headers={
-                                          'content-type': 'text/xml'})
+                'content-type': 'text/xml'})
         except ConnectionError:
             return data
 
@@ -247,7 +288,7 @@ class PayFIPAcquirer(models.Model):
 
         try:
             soap_response = requests.post(soap_url, data=soap_body, headers={
-                                          'content-type': 'text/xml'})
+                'content-type': 'text/xml'})
 
         except ConnectionError:
             return False, error
@@ -321,6 +362,7 @@ class PayFIPAcquirer(models.Model):
             }]
 
         return errors
+
     # endregion
 
     def get_base_url(self):

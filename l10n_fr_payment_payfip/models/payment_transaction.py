@@ -76,6 +76,14 @@ class PayFIPTransaction(models.Model):
             return res
 
         base_url = self.acquirer_id.get_base_url()
+        if self.acquirer_id.state == 'enabled':
+            saisie_value = 'W'
+        elif self.acquirer_id.state == 'activation':
+            saisie_value = 'X'
+        else:
+            saisie_value = 'T'
+
+
         return {
             'api_url': PayFIPController._payment_url,
             'numcli': self.acquirer_id.payfip_customer_number,
@@ -84,9 +92,9 @@ class PayFIPTransaction(models.Model):
             'objet': self.reference,
             'montant': self.amount,
             'mel': self.partner_email,
-            'urlnotif': urls.url_join(base_url, PayFIPController._notification_url),
-            'urlredirect': urls.url_join(base_url, PayFIPController._return_url),
-            'saisie': 'W' if self.acquirer_id.state == 'prod' else 'T',
+            'urlnotif': self.acquirer_id.payfip_notification_url,
+            'urlredirect': self.acquirer_id.payfip_redirect_url,
+            'saisie': saisie_value,
         }
 
     @api.model
@@ -103,9 +111,9 @@ class PayFIPTransaction(models.Model):
         if provider != 'payfip':
             return tx
 
-        reference = data["objet"]
+        reference = data
         tx = self.sudo().search(
-            [('reference', '=', reference), ('provider', '=', 'payfip')])
+            [('payfip_operation_identifier', '=', reference), ('provider', '=', 'payfip')])
         if not tx:
             raise ValidationError(
                 "PayFIP: " +
@@ -115,9 +123,9 @@ class PayFIPTransaction(models.Model):
 
     def _process_feedback_data(self, feedback_data):
         data = self.acquirer_id.payfip_get_result_from_web_service(
-            feedback_data.get('idOp'))
+            feedback_data)
 
-        refdet = feedback_data.get('refdet', False)
+        refdet = data.get('refdet', False)
         self.acquirer_reference = refdet
 
         if data.get('code'):

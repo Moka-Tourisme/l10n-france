@@ -60,6 +60,6 @@ class PayFIPController(http.Controller):
         _logger.debug('Beginning PayFIP DPN form_feedback with post data %s', pprint.pformat(post))
 
         idop = post.get('idop', False)
-        request.env['payment.transaction']._handle_feedback_data('payfip', idop)
+        data = request.env['payment.transaction']._handle_feedback_data('payfip', idop)
 
-        return request.redirect('/payment/status')
+        return request.redirect(data.acquirer_id.payfip_base_url + '/payment/status')
