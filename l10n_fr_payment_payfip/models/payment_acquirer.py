@@ -109,7 +109,7 @@ class PayFIPAcquirer(models.Model):
 
     # region Model methods
     def _get_soap_url(self):
-        return "https://www.tipi-client.budget.gouv.fr/tpa/services/securite"
+        return "https://www.tipi.budget.gouv.fr/tpa/services/securite"
 
     def _get_soap_namespaces(self):
         return {
