@@ -11,7 +11,6 @@
                 <![CDATA[<p>You will be redirected to the PayFIP website after clicking on the payment button.</p>]]>
             </field>
             <field name="payfip_customer_number">dummy</field>
-            <field name="payfip_form_action_url">https://www.tipi-client.budget.gouv.fr/tpa/paiementws.web</field>
             <field name="description" type="html">
                 <p>PayFIP est un système de paiement en ligne français proposé pa la Direction générale des Finances
                     Publiques. Son but est de faciliter le paiement des services publics locaux.

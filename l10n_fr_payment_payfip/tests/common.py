@@ -10,7 +10,7 @@ class PayFIPCommon(PaymentCommon):
 
         cls.payfip = cls._prepare_acquirer('payfip', update_values={
             'payfip_customer_number': '006382',
-            'payfip_form_action_url': "https://www.tipi-client.budget.gouv.fr",
+            'payfip_form_action_url': "https://www.tipi.budget.gouv.fr/tpa/paiementws.web",
         })
 
         # Override default values

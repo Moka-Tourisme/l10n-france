@@ -9,7 +9,6 @@ from odoo.exceptions import ValidationError
 
 from ..controllers.main import PayFIPController
 
-
 _logger = logging.getLogger(__name__)
 
 
@@ -83,7 +82,6 @@ class PayFIPTransaction(models.Model):
         else:
             saisie_value = 'T'
 
-
         return {
             'api_url': PayFIPController._payment_url,
             'numcli': self.acquirer_id.payfip_customer_number,
@@ -92,8 +90,8 @@ class PayFIPTransaction(models.Model):
             'objet': self.reference,
             'montant': self.amount,
             'mel': self.partner_email,
-            'urlnotif': self.acquirer_id.payfip_notification_url,
-            'urlredirect': self.acquirer_id.payfip_redirect_url,
+            'urlnotif': urls.url_join(base_url, PayFIPController._notification_url),
+            'urlredirect': urls.url_join(base_url, PayFIPController._return_url),
             'saisie': saisie_value,
         }
 

@@ -35,7 +35,7 @@ class PayFIPController(http.Controller):
                 'payfip_sent_to_webservice': True,
             })
             return werkzeug.utils.redirect('{url}?idop={idop}'.format(
-                url=tx.acquirer_id.payfip_form_action_url,
+                url="https://www.tipi.budget.gouv.fr/tpa/paiementws.web",
                 idop=tx.payfip_operation_identifier,
             ))
         else:
@@ -60,6 +60,6 @@ class PayFIPController(http.Controller):
         _logger.debug('Beginning PayFIP DPN form_feedback with post data %s', pprint.pformat(post))
 
         idop = post.get('idop', False)
-        data = request.env['payment.transaction']._handle_feedback_data('payfip', idop)
+        request.env['payment.transaction']._handle_feedback_data('payfip', idop)
 
-        return request.redirect(data.acquirer_id.payfip_base_url + '/payment/status')
+        return request.redirect('/payment/status')
