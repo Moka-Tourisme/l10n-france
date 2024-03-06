@@ -1,5 +1,4 @@
-# Copyright 20212Romain Duciel
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo.exceptions import ValidationError
 from odoo.tools import mute_logger
 from odoo.tests import tagged, users

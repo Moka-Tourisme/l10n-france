@@ -1,16 +1,34 @@
-# Tipiregie payment acquirer
+l10n_fr_payment_payfip
+=========
+This module add an option to use payfip
 
-[![pipeline status](https://github.com/Horanet/payment_tipiregie/badges/11.0/pipeline.svg)](https://github.com/Horanet/payment_tipiregie/commits/11.0)
-[![coverage report](https://github.com/Horanet/payment_tipiregie/badges/11.0/coverage.svg)](https://github.com/Horanet/payment_tipiregie/commits/11.0)
+Bug Tracker
+===========
 
-## Install Odoo 11
+Bugs are tracked on `GitHub Issues <https://github.com/Moka-Tourisme/l10n-france/issues>`_.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed feedback.
 
-- [Install Odoo 11.0](https://www.odoo.com/documentation/11.0/setup/install.html) on your favorite environment
+Do not contact contributors directly about support or help with technical issues.
 
-## Install addon:
+Credits
+=======
 
-- Execute command :
+## Authors
 
-```ruby
-pip install "git+https://github.com/Horanet/payment_tipiregie.git@11.0#egg=odoo11-addon-payment-tipiregie&subdirectory=setup/payment_tipiregie"
-```
+* Moka Tourisme 
+
+## Contributors
+
+* Horvat Damien : <https://github.com/PlantBasedStudio>
+* Duciel Romain : <https://github.com/Rom10811>
+
+
+## Maintainers
+
+This module is maintained by Moka Tourisme.
+
+
+This module is a addon for the `Odoo/addons/payment <https://github.com/odoo/odoo/tree/16.0/addons/payment>`_ project on GitHub.
+
+You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

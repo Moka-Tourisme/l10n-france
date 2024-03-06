@@ -11,6 +11,7 @@ from odoo import api, fields, models, _
 from odoo.osv import expression
 
 from ..controllers.main import PayFIPController
+from odoo.addons.payment_paypal.const import SUPPORTED_CURRENCIES
 
 _logger = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ class PayFIPProvider(models.Model):
     # endregion
 
     # region Fields declaration
-    provider = fields.Selection(selection_add=[('payfip', 'PayFIP')], ondelete={
+    code = fields.Selection(selection_add=[('payfip', 'PayFIP')], ondelete={
         'payfip': 'set default'})
 
     state = fields.Selection(selection_add=[('activation', 'Activation')], ondelete={
@@ -51,7 +52,7 @@ class PayFIPProvider(models.Model):
     @api.constrains('payfip_customer_number')
     def _check_payfip_customer_number(self):
         self.ensure_one()
-        if self.provider == 'payfip' and self.payfip_customer_number not in ['dummy', '']:
+        if self.code == 'payfip' and self.payfip_customer_number not in ['dummy', '']:
             webservice_enabled, message = self._payfip_check_web_service()
             if not webservice_enabled:
                 raise ValidationError(message)
@@ -64,26 +65,15 @@ class PayFIPProvider(models.Model):
     # endregion
     @api.model
     def _get_compatible_providers(
-            self, company_id, partner_id, currency_id=None, force_tokenization=False,
-            is_validation=False, **kwargs
-    ):
+            self, *args, currency_id=None, **kwargs):
         # Compute the base domain for compatible providers
-        domain = ['&', ('state', 'in', ['enabled', 'test', 'activation']), ('company_id', '=', company_id)]
+        providers = super()._get_compatible_providers(*args, currency_id=currency_id, **kwargs)
 
-        # Handle partner country
-        partner = self.env['res.partner'].browse(partner_id)
-        if partner.country_id:  # The partner country must either not be set or be supported
-            domain = expression.AND([
-                domain,
-                ['|', ('country_ids', '=', False), ('country_ids', 'in', [partner.country_id.id])]
-            ])
+        currency = self.env['res.currency'].browse(currency_id).exists()
+        if currency and currency.name not in SUPPORTED_CURRENCIES:
+            providers = providers.filtered(lambda p: p.code != 'payfip')
 
-        # Handle tokenization support requirements
-        if force_tokenization or self._is_tokenization_required(**kwargs):
-            domain = expression.AND([domain, [('allow_tokenization', '=', True)]])
-
-        compatible_providers = self.env['payment.provider'].search(domain)
-        return compatible_providers
+        return providers
 
     # region Actions
     # endregion

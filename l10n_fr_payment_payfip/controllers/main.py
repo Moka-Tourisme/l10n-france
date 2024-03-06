@@ -22,7 +22,7 @@ class PayFIPController(http.Controller):
         amount = float(post.pop('montant', 0))
         return_url = post.pop('urlredirect', '/payment/status')
         tx = request.env['payment.transaction'].sudo().search([('reference', '=', reference), ('amount', '=', amount)])
-        if tx and tx.provider_id.provider == 'payfip':
+        if tx and tx.provider_id.code == 'payfip':
             # PayFIP doesn't accept two attempts with the same operation identifier, we check if transaction has
             # already sent and recreate it in this case.
             if tx.payfip_sent_to_webservice:
@@ -49,17 +49,18 @@ class PayFIPController(http.Controller):
             raise ValidationError("No idOp found for transaction on PayFIP")
 
         idop = post.get('idop', False)
-        request.env['payment.transaction']._handle_feedback_data('payfip', idop)
+        tx_sudo = request.env['payment.transaction'].sudo()._get_tx_from_notification_data('payfip', idop)
+        tx_sudo._handle_notification_data('payfip', idop)
 
         return ''
 
     @http.route(_return_url, type="http", auth="public", methods=["POST", "GET"], csrf=False, save_session=False)
     def payfip_dpn(self, **post):
-
         """Process PayFIP DPN."""
         _logger.debug('Beginning PayFIP DPN form_feedback with post data %s', pprint.pformat(post))
 
         idop = post.get('idop', False)
-        request.env['payment.transaction']._handle_feedback_data('payfip', idop)
+        tx_sudo = request.env['payment.transaction'].sudo()._get_tx_from_notification_data('payfip', idop)
+        tx_sudo._handle_notification_data('payfip', idop)
 
         return request.redirect('/payment/status')

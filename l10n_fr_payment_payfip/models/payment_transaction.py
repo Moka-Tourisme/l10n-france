@@ -55,7 +55,7 @@ class PayFIPTransaction(models.Model):
 
     def create(self, vals):
         res = super(PayFIPTransaction, self).create(vals)
-        if res.provider_id.provider == 'payfip':
+        if res.provider_id.code == 'payfip':
             prec = self.env['decimal.precision'].precision_get('Product Price')
             email = res.partner_email
             amount = int(float_round(res.amount * 100.0, prec))
@@ -66,12 +66,11 @@ class PayFIPTransaction(models.Model):
             idop = res.provider_id.payfip_get_id_op_from_web_service(
                 email, amount, reference, provider_reference)
             res.payfip_operation_identifier = idop
-
         return res
 
     def _get_specific_rendering_values(self, processing_values):
         res = super()._get_specific_rendering_values(processing_values)
-        if self.provider != 'payfip':
+        if self.provider_code != 'payfip':
             return res
 
         base_url = self.provider_id.get_base_url()
@@ -96,7 +95,7 @@ class PayFIPTransaction(models.Model):
         }
 
     @api.model
-    def _get_tx_from_feedback_data(self, provider, data):
+    def _get_tx_from_notification_data(self, provider, data):
         """ Override of payment to find the transaction based on Payfip data.
 
         param str provider: The provider of the provider that handled the transaction
@@ -105,13 +104,13 @@ class PayFIPTransaction(models.Model):
         :rtype: recordset of `payment.transaction`
         :raise: ValidationError if the data match no transaction
         """
-        tx = super()._get_tx_from_feedback_data(provider, data)
+        tx = super()._get_tx_from_notification_data(provider, data)
         if provider != 'payfip':
             return tx
 
         reference = data
         tx = self.sudo().search(
-            [('payfip_operation_identifier', '=', reference), ('provider', '=', 'payfip')])
+            [('payfip_operation_identifier', '=', reference), ('provider_code', '=', 'payfip')])
         if not tx:
             raise ValidationError(
                 "PayFIP: " +
@@ -119,19 +118,15 @@ class PayFIPTransaction(models.Model):
             )
         return tx
 
-    def _process_feedback_data(self, feedback_data):
+    def _process_notification_data(self, feedback_data):
         data = self.provider_id.payfip_get_result_from_web_service(
             feedback_data)
-
         refdet = data.get('refdet', False)
         self.provider_reference = refdet
-
         if data.get('code'):
             self._set_pending()
-
-        self.ensure_one()
-
         result = data.get('resultrans', False)
+        self.ensure_one()
         if not result:
             self._set_pending()
 

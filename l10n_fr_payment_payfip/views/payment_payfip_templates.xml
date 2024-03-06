@@ -2,7 +2,6 @@
 <odoo>
     <template id="redirect_form">
         <form t-att-action="api_url" method="post">
-            <!-- idOp -->
             <input type="hidden" name="numcli" t-att-value="numcli"/>
             <input type="hidden" name="exer" t-att-value="exer"/>
             <input type="hidden" name="refdet" t-att-value="refdet"/>

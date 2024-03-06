@@ -22,7 +22,7 @@
         # Views must be before data to avoid loading issues
         'views/payment_payfip_templates.xml',
         'views/payment_views.xml',
-        'data/payment_provider.xml',
+        'data/payment_provider_data.xml',
     ],
     'demo': [
     ],
