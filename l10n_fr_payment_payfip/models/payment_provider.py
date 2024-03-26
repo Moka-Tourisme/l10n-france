@@ -38,6 +38,23 @@ class PayFIPProvider(models.Model):
         required_if_provider='payfip',
     )
 
+    payfip_base_url = fields.Char(
+        string="Base URL",
+        required_if_provider='payfip',
+    )
+
+    payfip_notification_url = fields.Char(
+        string="Notification URL",
+        required_if_provider='payfip',
+        help="URL to which PayFIP will send the IPN notifications. like '/payment/payfip/ipn'"
+    )
+
+    payfip_redirect_url = fields.Char(
+        string="Redirect URL",
+        required_if_provider='payfip',
+        help="URL to which PayFIP will redirect the user after payment. like '/payment/payfip/dpn'"
+    )
+
     payfip_activation_mode = fields.Boolean(
         string="Activation mode",
         default=False,
@@ -106,10 +123,8 @@ class PayFIPProvider(models.Model):
         exer = fields.Datetime.now().year
         numcli = self.payfip_customer_number
         saisie = saisie_value
-        urlnotif = '%s' % urllib.parse.urljoin(
-            base_url, PayFIPController._notification_url)
-        urlredirect = '%s' % urllib.parse.urljoin(
-            base_url, PayFIPController._return_url)
+        urlnotif = self.payfip_notification_url
+        urlredirect = self.payfip_redirect_url
 
         soap_body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
                     'xmlns:pai="http://securite.service.tpa.cp.finances.gouv.fr/services/mas_securite/' \

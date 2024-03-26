@@ -8,6 +8,9 @@
             <group name="provider_credentials" position='inside'>
                 <group attrs="{'invisible': [('code', '!=', 'payfip')]}">
                     <field name="payfip_customer_number" />
+                    <field name="payfip_base_url"/>
+                    <field name="payfip_notification_url"/>
+                    <field name="payfip_redirect_url"/>
                 </group>
             </group>
         </field>

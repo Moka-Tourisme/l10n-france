@@ -89,8 +89,8 @@ class PayFIPTransaction(models.Model):
             'objet': self.reference,
             'montant': self.amount,
             'mel': self.partner_email,
-            'urlnotif': urls.url_join(base_url, PayFIPController._notification_url),
-            'urlredirect': urls.url_join(base_url, PayFIPController._return_url),
+            'urlnotif': self.provider_id.payfip_notification_url,
+            'urlredirect': self.provider_id.payfip_redirect_url,
             'saisie': saisie_value,
         }
 
