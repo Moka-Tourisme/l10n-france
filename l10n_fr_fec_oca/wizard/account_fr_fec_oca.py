@@ -646,10 +646,15 @@ class AccountFrFecOca(models.TransientModel):
                 lineterminator="\r\n",
             )
             for row in rows:
-                if encoding == "ascii":
+                if encoding == "ascii" or encoding == "ASCII":
                     for j, _cell_content in enumerate(row):
-                        row[j] = unidecode(row[j])
+                        # Check if row is not None (will return a error if we try to decode None)
+                        if row[j] is not None:  
+                            if isinstance(row[j], bytes):  
+                                row[j] = row[j].decode('ascii')
+                            row[j] = unidecode(row[j])
                 writer.writerow(row)
 
-            fecvalue = fecfile.getvalue().encode()  # Convert string to bytes
-        return base64.encodebytes(fecvalue)
+            fecvalue = fecfile.getvalue()  # Convert string to bytes
+        return base64.encodebytes(fecvalue.encode(encoding))
+
