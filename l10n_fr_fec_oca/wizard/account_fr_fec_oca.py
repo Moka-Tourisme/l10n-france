@@ -608,7 +608,9 @@ class AccountFrFecOca(models.TransientModel):
         siren = self._get_siren(company)
         self.write(
             {
-                "fec_data": base64.encodebytes(fecvalue),
+                "fec_data": base64.encodebytes(
+                    fecvalue.encode(self.encoding, errors="replace")
+                ),
                 # Filename = <siren>FECYYYYMMDD where YYYMMDD is the closing date
                 "filename": "%sFEC%s%s.txt" % (siren, end_date, suffix),
             }
@@ -656,5 +658,5 @@ class AccountFrFecOca(models.TransientModel):
                 writer.writerow(row)
 
             fecvalue = fecfile.getvalue()  # Convert string to bytes
-        return base64.encodebytes(fecvalue.encode(encoding))
+        return fecvalue
 
