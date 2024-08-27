@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2024 Moka (http://www.mokatourisme.fr/)
+  @author: Horvat Damien <damien@mokatourisme.fr>
+  @author: Duciel Romain <romain@mokatourisme.fr>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="default_report_l10n_fr" model="mis.report">
+        <field name="display_name">Synthèse de régie</field>
+        <field name="name">Synthèse de régie</field>
+        <field name="move_lines_source" ref="account.model_account_move_line"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_1" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Recettes</field>
+        <field name="name">partie_1_recettes</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">AccountingNone</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.title"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_2" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Montant total des recettes encaissées ou facturées par la régie</field>
+        <field name="name">recettes</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">recette_pos + recette_factures</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.sub_title"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_3" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Dont point de vente</field>
+        <field name="name">recette_pos</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">espece + cheque + cb + ancv</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.line"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_4" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Espèce</field>
+        <field name="name">espece</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">deb[411%][('journal_id.code', 'ilike', 'POSS'),('name', 'ilike', 'espece')]</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.details"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_5" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Chèque</field>
+        <field name="name">cheque</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">deb[411%][('journal_id.code', 'ilike', 'POSS'),('name', 'ilike', 'cheque')]</field> 
+        <field name="style_id" ref="l10n_fr_mis_builder.details"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_6" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Carte bancaire</field>
+        <field name="name">cb</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">deb[411%]['&amp;','|',('journal_id.code', 'ilike', 'POSS'),('name', 'ilike', 'cb'),('name', 'ilike', 'carte')]</field> 
+        <field name="style_id" ref="l10n_fr_mis_builder.details"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_7" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Chèque Vacances</field>
+        <field name="name">ancv</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">deb[411%][('journal_id.code', 'ilike', 'POSS'),('name', 'ilike', 'ancv')]</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.details"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_8" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Dont factures</field>
+        <field name="name">recette_factures</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">cheque_facture + payfip</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.line"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_9" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Chèque</field>
+        <field name="name">cheque_facture</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">deb[512%][('move_id', 'ilike', 'CHQ'), ('ref', 'ilike', 'FAC')]</field>  
+        <field name="style_id" ref="l10n_fr_mis_builder.details"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_10" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">PayFip</field>
+        <field name="name">payfip</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">deb[512%][('move_id.journal_id.name', 'ilike', 'payfip')]</field>
+        <!-- A changer a chaque fois si on veut un nouvel intermédiaire -> nouveau journal. Sinon tout regrouper sur le même  -->
+        <field name="style_id" ref="l10n_fr_mis_builder.details"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_11" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Recette annulée</field>
+        <field name="name">recette_annulee</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">crd[411%]['|','&amp;',('ref', 'not ilike', 'combiner'),('ref', 'ilike', 'extourne'),('journal_id.code', '=', 'POSS')]</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.line"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_12" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Total</field>
+        <field name="name">total_recette</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">recettes - recette_annulee</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.sub_title"/>
+    </record>
+
+    <record id="default_kpi_l10n_fr_13" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Compte DFT (Dépôt de Fond au Trésor)</field>
+        <field name="name">compte_dft</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">AccountingNone</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.title"/>
+    </record>
+
+
+    <record id="default_kpi_l10n_fr_14" model="mis.report.kpi">
+        <field name="report_id" ref="default_report_l10n_fr"/>
+        <field name="description">Montant des frais débités sur le compte</field>
+        <field name="name">commission_CB</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">deb[627%][('journal_id.code', 'ilike', 'BNK')]</field>
+        <field name="style_id" ref="l10n_fr_mis_builder.line"/>
+    </record>
+
+
+</odoo>

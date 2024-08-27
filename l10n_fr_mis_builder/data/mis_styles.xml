@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2024 Moka (http://www.mokatourisme.fr/)
+  @author: Horvat Damien <damien@mokatourisme.fr>
+  @author: Duciel Romain <romain@mokatourisme.fr>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+
+<record id="title" model="mis.report.style">
+    <field name="name">l10n_fr title</field>
+    <field name="background_color_inherit" eval="0" />
+    <field name="background_color">#CCCCCC</field>
+    <field name="font_weight_inherit" eval="0" />
+    <field name="font_weight">bold</field>
+    <field name="font_size_inherit" eval="0" />
+    <field name="font_size">large</field>
+    <field name="dp_inherit" eval="0"/>
+    <field name="dp">2</field>
+</record>
+
+<record id="sub_title" model="mis.report.style">
+    <field name="name">l10n_fr sub_title</field>
+    <field name="background_color_inherit" eval="0" />
+    <field name="background_color">#EEEEEE</field>
+    <field name="font_weight_inherit" eval="0" />
+    <field name="font_weight">bold</field>
+    <field name="font_size_inherit" eval="0" />
+    <field name="font_size">medium</field>
+    <field name="dp_inherit" eval="0"/>
+    <field name="dp">2</field>
+</record>
+
+<record id="line" model="mis.report.style">
+    <field name="name">l10n_fr line</field>
+    <field name="background_color_inherit" eval="0" />
+    <field name="background_color">#FFFFFF</field>
+    <field name="font_style_inherit" eval="0" />
+    <field name="font_style">normal</field>
+    <field name="dp_inherit" eval="0"/>
+    <field name="dp">2</field>
+</record>
+
+<record id="details" model="mis.report.style">
+    <field name="name">l10n_fr details</field>
+    <field name="indent_level_inherit" eval="0" />
+    <field name="indent_level">2</field>
+    <field name="font_style_inherit" eval="0" />
+    <field name="font_style">italic</field>
+    <field name="font_size_inherit" eval="0" />
+    <field name="font_size">small</field>
+    <field name="dp_inherit" eval="0"/>
+    <field name="dp">2</field>
+</record>
+
+</odoo>
