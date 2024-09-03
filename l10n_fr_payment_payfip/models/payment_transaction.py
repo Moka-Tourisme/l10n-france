@@ -59,7 +59,7 @@ class PayFIPTransaction(models.Model):
             prec = self.env['decimal.precision'].precision_get('Product Price')
             email = res.partner_email
             amount = int(float_round(res.amount * 100.0, prec))
-            reference = res.reference.replace('-', ' ')
+            reference = res.reference.replace('-', '').replace('/', '').replace('\\', '').strip()
             provider_reference = '%.15d' % int(
                 uuid.uuid4().int % 899999999999999)
             res.provider_reference = provider_reference
