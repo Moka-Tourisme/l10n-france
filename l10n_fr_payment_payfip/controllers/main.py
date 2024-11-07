@@ -41,7 +41,7 @@ class PayFIPController(http.Controller):
         else:
             return werkzeug.utils.redirect('/')
 
-    @http.route(_notification_url, type='http', auth='public', methods=['POST'], csrf=False, save_session=False)
+    @http.route(_notification_url, type='http', auth='public', methods=["POST","GET"], csrf=False, save_session=False)
     def payfip_ipn(self, **post):
         """Process PayFIP IPN."""
         _logger.debug('Beginning PayFIP IPN form_feedback with post data %s', pprint.pformat(post))
