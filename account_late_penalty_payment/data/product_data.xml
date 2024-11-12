@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2024 MokaTourisme (https://mokatourisme.fr)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="product_penalty" model="product.product">
+        <field name="name">Pénalités</field>
+        <field name="standard_price">0.00</field>
+        <field name="list_price">0.00</field>
+        <field name="weight">0.00</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product.product_category_all"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="default_code">SETTLE</field>
+        <field name="taxes_id" eval="[(6, 0, [ref('l10n_fr.1_tva_purchase_service_0')])]"/>
+        <field name="purchase_ok">False</field>
+    </record>
+
+    <record id="product_fixed_fee" model="product.product">
+        <field name="name">Forfait pénalité</field>
+        <field name="standard_price">0.00</field>
+        <field name="list_price">0.00</field>
+        <field name="weight">0.00</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product.product_category_all"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="default_code">SETTLE</field>
+        <field name="taxes_id" eval="[(6, 0, [ref('l10n_fr.1_tva_purchase_service_0')])]"/>
+        <field name="purchase_ok">False</field>
+    </record>
+
+</odoo>

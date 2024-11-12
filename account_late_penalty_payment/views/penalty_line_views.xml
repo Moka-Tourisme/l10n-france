@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2024 Moka
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <data>
+        <record id="view_penalty_line_tree" model="ir.ui.view">
+            <field name="name">penalty.line.tree</field>
+            <field name="model">penalty.line</field>
+            <field name="arch" type="xml">
+                <tree string="Lignes de pénalité" create="0" editable="bottom">
+                    <field name="residual_base" string="Base de calcul" attrs="{'readonly': True}" widget="monetary" options="{'currency_field': 'currency_id'}" colspan="2"/>
+                    <field name="date_period_from" string="Date de début de la periode d'intérêt" attrs="{'readonly': True}" colspan="2"/>
+                    <field name="date_period_to" string="Date de fin la periode d'intérêt" attrs="{'readonly': True}" colspan="2"/>
+                    <field name="days" string="Jours de retard" colspan="2"/>
+                    <field name="rate" widget="percentage" string="Taux d'intérêt (%)" attrs="{'readonly': True}" colspan="2"/>
+                    <field name="coefficient" string="Coefficient" attrs="{'readonly': True}" colspan="2"/>
+                    <field name="penalty" string="Montant de la pénalité" attrs="{'readonly': True}" widget="monetary" options="{'currency_field': 'currency_id'}" colspan="2"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_penalty_line_form" model="ir.ui.view">
+            <field name="name">penalty.line.form</field>
+            <field name="model">penalty.line</field>
+            <field name="arch" type="xml">
+                <form string="Ligne de pénalité">
+                    <group>
+                        <field name="residual_base" />
+                        <field name="date_period_from" />
+                        <field name="date_period_to" />
+                        <field name="days" />
+                        <field name="rate" widget="percentage" />
+                        <field name="coefficient" />
+                        <field name="penalty" />
+                        <field name="amount_paid" />tion des pénalités est activée, il faudrait ajouter une info box alert si on est sur une comptabilité Française :
+Information importante concernant l'indemnité forfaitaire :
+L'indemnité forfaitaire doit obligatoirement être mentionnée dans les conditions génér
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

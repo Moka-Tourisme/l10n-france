@@ -1,0 +1,41 @@
+    def calculate_penalty(self):
+        for record in self:
+            if not record.penalty_active or record.amount_residual <= 0:
+                _logger.info("Pénalités inactives ou montant résiduel <= 0 pour la facture %s", record.name)
+                continue
+
+            today = fields.Date.today()
+
+            existing_penalties_today = record.penalty_line_ids.filtered(lambda p: p.date_period == today and p.residual_base == record.amount_residual)
+            if existing_penalties_today:
+                existing_penalties_today.unlink()
+
+            penalty_config = self.env['penalty.configuration'].search([
+                ('year', '=', record.invoice_date_due.year),
+                ('month', '=', record.invoice_date_due.month)
+            ], limit=1)
+
+            if not penalty_config:
+                _logger.warning("Aucune configuration de pénalité trouvée pour la facture %s", record.name)
+                continue
+
+            coefficient = penalty_config.coefficient
+            fixed_fee = penalty_config.fixed_fee
+            days_late = (today - record.invoice_date_due).days
+
+            if days_late > 0:
+                legal_rate = penalty_config.legal_rate / 100
+                penalty_amount = (record.amount_residual * legal_rate * days_late * coefficient) / 365
+
+                penalty_line_vals = {
+                    'residual_base': record.amount_residual,
+                    'date_period': today,
+                    'days': days_late,
+                    'rate': penalty_config.legal_rate,
+                    'coefficient': coefficient,
+                    'penalty': penalty_amount,
+                    'fixed_fee': fixed_fee,
+                }
+
+                record.penalty_line_ids = [(0, 0, penalty_line_vals)]
+                _logger.info("Pénalité ajoutée pour la facture %s: %s", record.name, penalty_line_vals)

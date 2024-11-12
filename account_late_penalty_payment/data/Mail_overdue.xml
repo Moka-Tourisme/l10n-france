@@ -1,0 +1,137 @@
+<div style="margin: 0px; padding: 0px; font-size: 13px;">
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Cher client,</p>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Selon nos livres de comptes, les factures échues suivantes ne sont toujours pas soldées :</p>
+
+                <t t-foreach="object.invoice_ids.sorted(key='invoice_date')" t-as="inv">
+                        </t><t t-foreach="object.total_residual()" t-as="total_residual">
+                        </t><table style="box-sizing: border-box; caption-side: bottom; border-spacing: 0px; border-collapse: collapse; width: 100%; text-align: center; font-size: 13px;" width="100%">
+                   <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;"><tr style="border-style:solid;box-sizing:border-box;background-clip:border-box;background-origin:padding-box;background-size:auto;background-image:none;background-attachment:scroll;background-repeat:repeat;background-position-y:0%;background-position-x:0%;background-color:#efefef;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;background: #efefef;">
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Numéro de facture</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Date de facturation</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Conditions de règlement</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Date d'échéance</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Réf. commande</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Total HT</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Total</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Reste à payer</th>
+
+                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid lightgrey;">Relances précédentes</th>
+
+            </tr>
+                    <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;background-color:                             % if inv.move_type == 'out_refund':                                 LightGray                             % endif                         ">
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;">
+                                <t t-out="inv.name"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;">
+                                <t t-out="inv.invoice_date"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;">
+                                <t t-out="inv.invoice_payment_term_id.name or ''"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;">
+                                <t t-out="inv.invoice_date_due"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;"><t t-out="dict(inv.fields_get(allfields=['move_type'])['move_type']['selection'])[inv.move_type]"></t></td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black; text-align: right;">
+                                <t t-out="format_amount(inv.amount_untaxed * (inv.move_type == 'out_refund' and -1 or 1), inv.currency_id)"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black; text-align: right;">
+                                <t t-out="format_amount(inv.amount_total * (inv.move_type == 'out_refund' and -1 or 1), inv.currency_id)"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black; text-align: right;">
+                                <t t-out="format_amount(inv.amount_residual * (inv.move_type == 'out_refund' and -1 or 1), inv.currency_id)"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;">
+                                <t t-out="inv.overdue_reminder_counter"></t>
+                            </td>
+                        </tr>
+                    
+                    <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">&nbsp;</td>
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">&nbsp;</td>
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">&nbsp;</td>
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">&nbsp;</td>
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">&nbsp;</td>
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">&nbsp;</td>
+                            <td colspan="2" style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black; font-weight: bold; text-align: right;">
+                                Reste à payer en <t t-out="total_residual[0].name"></t></td>
+                            <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black; font-weight: bold; text-align: right;">
+                                <t t-out="format_amount(total_residual[1], total_residual[0])"></t>
+                            </td>
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">&nbsp;</td>
+                        </tr>
+                    
+                </tbody></table>
+
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Si vous avez payé ces factures il y a quelques jours, nous vous prions d'ignorer cet e-mail.</p>
+
+                <t t-if="object.company_id.overdue_reminder_attach_invoice">
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">Vous trouverez ci-joint les factures impayées.</p>
+                </t>
+
+                <t t-if="object.counter > 2">
+                     <p style="margin:0px 0 12px 0;box-sizing:border-box;">Ce retard est peut-être dû à un simple oubli. Nous vous invitons à régulariser votre situation dans les meilleurs délais.<br>
+
+                Dans le cas où votre règlement nous parviendrait avant réception de ce mail, nous vous prions de ne pas en tenir compte.<br></p>
+                </t>
+
+                   <p style="margin:0px 0 12px 0;box-sizing:border-box;">Attention :<br>
+
+                Malgré plusieurs rappels, nous sommes au regret de constater que ces factures restent impayées. Vous vous exposez de fait à des pénalités de retard et à terme à la suspension de vos services (cf. section 12.3 Défaut de paiement de votre contrat Saas).
+
+                Nous vous prions de régulariser votre situation au plus vite. <br>
+                <t t-if="object.counter > 3">
+                    <t t-foreach="object.invoice_ids.sorted(key='invoice_date')" t-as="inv">
+                            
+                            <t t-if="inv.penalty_line_ids"/>
+
+                                
+                                <t t-foreach="inv.penalty_line_ids" t-as="penalty">
+                                    <table style="box-sizing: border-box; caption-side: bottom; border-spacing: 0px; border-collapse: collapse; width: 100%; text-align: center; font-size: 13px;" width="100%">
+                                        <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                            <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid black;">Base de calcul</th>
+                                                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid black;">Date de la période</th>
+                                                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid black;">Jours de retard</th>
+                                                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid black;">Taux d'intérêt (%)</th>
+                                                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid black;">Coefficient</th>
+                                                <th style="box-sizing: border-box; text-align: center; font-weight: 500; padding: 5px; border: 1px solid black;">Montant de la pénalité</th>
+                                            </tr>
+                                            <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                    <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;"><t t-out="format_amount(penalty.residual_base, inv.currency_id)"/></td>
+                                                    <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;"><t t-out="penalty.date_period_from"></t></td>
+                                                    <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;"><t t-out="penalty.date_period_to"></t></td>
+                                                    <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;"><t t-out="penalty.days"></t></td>
+                                                    <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;"><t t-out="penalty.rate"></t></td>
+                                                    <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black;"><t t-out="penalty.coefficient"></t></td>
+                                                    <td style="border-style:solid;box-sizing:border-box;border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-width:1px;border-bottom-width:1px;border-right-width:1px;border-top-width:1px;border-left-color:black;border-bottom-color:black;border-right-color:black;border-top-color:black;padding: 5px; border: 1px solid black; text-align: right;"> <t t-out="format_amount(penalty.penalty, inv.currency_id)"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </t>
+                    </t>
+                
+                    
+
+                Dans le cas où votre règlement nous parviendrait avant réception de ce mail, nous vous prions de ne pas en tenir compte.<br><p style="margin:0px 0 12px 0;box-sizing:border-box;"></p>
+                
+                </t>
+                <p style="margin:0px 0 12px 0;box-sizing:border-box;">Nous vous prions d'agréer, Madame, Monsieur, l'expression de nos sentiments les meilleurs.</p>
+
+                <t t-if="user.signature">
+                    <p style="margin:0px 0 12px 0;box-sizing:border-box;">
+                        <t t-out="user.signature or ''"></t>
+                    </p>
+                </t>
+
+            </div>
+        

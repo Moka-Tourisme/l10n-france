@@ -1,0 +1,23 @@
+<odoo>
+    <record id="penalty_configuration_rule" model="ir.rule">
+        <field name="name">Pénalité Configuration - Accès pour les utilisateurs de facturation</field>
+        <field name="model_id" ref="model_penalty_configuration"/>
+        <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+        <field name="domain_force">[]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="penalty_line_rule" model="ir.rule">
+        <field name="name">Lignes de Pénalités - Accès pour les utilisateurs de facturation</field>
+        <field name="model_id" ref="model_penalty_line"/>
+        <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+        <field name="domain_force">[]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+</odoo>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2024 MokaTourisme (https://mokatourisme.fr)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="penalty_s1_2015" model="penalty.configuration">
+        <field name="date_from">2015-01-01</field>
+        <field name="date_to">2015-06-30</field>
+        <field name="legal_rate">0.0093</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2015" model="penalty.configuration">
+        <field name="date_from">2015-07-01</field>
+        <field name="date_to">2015-12-31</field>
+        <field name="legal_rate">0.0099</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2016" model="penalty.configuration">
+        <field name="date_from">2016-01-01</field>
+        <field name="date_to">2016-06-30</field>
+        <field name="legal_rate">0.0101</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2016" model="penalty.configuration">
+        <field name="date_from">2016-07-01</field>
+        <field name="date_to">2016-12-31</field>
+        <field name="legal_rate">0.0093</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2017" model="penalty.configuration">
+        <field name="date_from">2017-01-01</field>
+        <field name="date_to">2017-06-30</field>
+        <field name="legal_rate">0.0090</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2017" model="penalty.configuration">
+        <field name="date_from">2017-07-01</field>
+        <field name="date_to">2017-12-31</field>
+        <field name="legal_rate">0.0090</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2018" model="penalty.configuration">
+        <field name="date_from">2018-01-01</field>
+        <field name="date_to">2018-06-30</field>
+        <field name="legal_rate">0.0089</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2018" model="penalty.configuration">
+        <field name="date_from">2018-07-01</field>
+        <field name="date_to">2018-12-31</field>
+        <field name="legal_rate">0.0088</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2019" model="penalty.configuration">
+        <field name="date_from">2019-01-01</field>
+        <field name="date_to">2019-06-30</field>
+        <field name="legal_rate">0.0086</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2019" model="penalty.configuration">
+        <field name="date_from">2019-07-01</field>
+        <field name="date_to">2019-12-31</field>
+        <field name="legal_rate">0.0087</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2020" model="penalty.configuration">
+        <field name="date_from">2020-01-01</field>
+        <field name="date_to">2020-06-30</field>
+        <field name="legal_rate">0.0087</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2020" model="penalty.configuration">
+        <field name="date_from">2020-07-01</field>
+        <field name="date_to">2020-12-31</field>
+        <field name="legal_rate">0.0084</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2021" model="penalty.configuration">
+        <field name="date_from">2021-01-01</field>
+        <field name="date_to">2021-06-30</field>
+        <field name="legal_rate">0.0079</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2021" model="penalty.configuration">
+        <field name="date_from">2021-07-01</field>
+        <field name="date_to">2021-12-31</field>
+        <field name="legal_rate">0.0076</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2022" model="penalty.configuration">
+        <field name="date_from">2022-01-01</field>
+        <field name="date_to">2022-06-30</field>
+        <field name="legal_rate">0.0076</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2022" model="penalty.configuration">
+        <field name="date_from">2022-07-01</field>
+        <field name="date_to">2022-12-31</field>
+        <field name="legal_rate">0.0077</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2023" model="penalty.configuration">
+        <field name="date_from">2023-01-01</field>
+        <field name="date_to">2023-06-30</field>
+        <field name="legal_rate">0.0206</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2023" model="penalty.configuration">
+        <field name="date_from">2023-07-01</field>
+        <field name="date_to">2023-12-31</field>
+        <field name="legal_rate">0.0422</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s1_2024" model="penalty.configuration">
+        <field name="date_from">2024-01-01</field>
+        <field name="date_to">2024-06-30</field>
+        <field name="legal_rate">0.0507</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+
+    <record id="penalty_s2_2024" model="penalty.configuration">
+        <field name="date_from">2024-07-01</field>
+        <field name="date_to">2024-12-31</field>
+        <field name="legal_rate">0.0492</field>
+        <field name="coefficient">3.0</field>
+        <field name="fixed_fee">40.0</field>
+    </record>
+</odoo>

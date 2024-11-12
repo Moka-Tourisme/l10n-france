@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 Moka
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html) -->
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="penalty_active" invisible="1"/>
+                <field name="penalty_invoice_count" invisible="1"/>
+                <field name="has_penalty_lines_billable" invisible="1"/>
+                <button name="create_penalty_invoice" string="Create penalty invoice" type="object" class="oe_highlight"
+                        attrs="{'invisible': [('penalty_active', '!=', True), ('has_penalty_lines_billable', '=', False)]}"/>
+                <button name="update_penalty_lines" string="Update penalty lines" type="object" class="oe_highlight"
+                        attrs="{'invisible': [('penalty_active', '!=', True)]}"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="view_penalty_invoice" string="Penalty Invoice(s)" type="object"
+                        class="oe_stat_button"
+                        icon="fa-file"
+                        attrs="{'invisible': [('penalty_invoice_count', '=', 0)]}">
+                    <field name="penalty_invoice_count" widget="statinfo"/>
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="view_move_form_inherit_penalty" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.penalty</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_invoice_overdue_reminder.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="no_overdue_reminder" position="after">
+                <field name="penalty_active"/>
+            </field>
+
+            <group name="overdue_reminder_lines" position="after">
+                <group string="Pénalités" attrs="{'invisible': [('penalty_active', '!=', True)]}">
+                    <field name="penalty_line_ids" mode="tree" nolabel="1" colspan="2" context="{
+                                                'default_move_type': context.get('default_move_type'),
+                                                'journal_id': journal_id,
+                                                'default_partner_id': commercial_partner_id,
+                                                'default_currency_id': currency_id or company_currency_id,
+                                                'default_display_type': 'product',
+                                                'quick_encoding_vals': quick_encoding_vals,
+                                            }">
+                        <tree string="Lignes de pénalité" create="0" delete="0" editable="bottom" default_order="date_period_from asc">
+                            <field name="date_period_from" string="Date de début de la periode d'intérêt"
+                                   attrs="{'readonly': True}"
+                                   colspan="2"/>
+                            <field name="date_period_to" string="Date de fin de la periode d'intérêt"
+                                   attrs="{'readonly': True}"
+                                   colspan="2"/>
+                            <field name="residual_base" string="Base de calcul" attrs="{'readonly': True}"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}" colspan="2"/>
+                            <field name="days" string="Jours de retard" colspan="2" attrs="{'readonly': True}"/>
+                            <field name="rate" widget="percentage" string="Taux d'intérêt (%)"
+                                   attrs="{'readonly': True}"
+                                   colspan="2"/>
+                            <field name="coefficient" string="Coefficient" attrs="{'readonly': True}" colspan="2"/>
+                            <field name="penalty" string="Montant de la pénalité" attrs="{'readonly': True}"
+                                   widget="monetary" options="{'currency_field': 'currency_id'}" colspan="2"/>
+                            <field name="amount_paid" optional="hide"/>
+                            <field name="payment_id" optional="hide"/>
+                        </tree>
+                    </field>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

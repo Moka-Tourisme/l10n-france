@@ -1,0 +1,17 @@
+<odoo>
+    <record id="action_penalty_configuration" model="ir.actions.act_window">
+        <field name="name">Configurations des Pénalités</field>
+        <field name="res_model">penalty.configuration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>Configurer les pénalités de retard ici.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_penalty_configuration" 
+              name="Configurations des Pénalités" 
+              parent="account.menu_account_config" 
+              action="action_penalty_configuration" 
+              sequence="10"
+              groups="account.group_account_invoice"/>
+</odoo>
