@@ -23,6 +23,7 @@
         'views/payment_payfip_templates.xml',
         'views/payment_views.xml',
         'data/payment_provider_data.xml',
+        'data/payment_transaction.xml',
     ],
     'demo': [
     ],
