@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+    <record id="payment_method_payfip" model="payment.method">
+        <field name="name">PayFip</field>
+        <field name="code">payfip</field>
+        <field name="sequence">1</field>
+        <field name="image" type="base64" file="l10n_fr_payment_payfip/static/src/img/payfip_icon.png"/>
+<!--        <field name="payment_type">inbound</field>-->
+    </record>
+
+    <record id="account_payment_method_payfip" model="account.payment.method">
+        <field name="name">PayFIP</field>
+        <field name="code">payfip</field>
+        <field name="payment_type">inbound</field>
+    </record>
+    
     <record id="payment_provider_payfip" model="payment.provider">
         <field name="name">PayFIP</field>
 <!--        <field name="display_as">Module PayFIP</field>-->
@@ -14,17 +28,5 @@
         </field>
     </record>
 
-    <record id="payment_method_payfip" model="payment.method">
-        <field name="name">PayFip</field>
-        <field name="code">payfip</field>
-        <field name="sequence">1</field>
-        <field name="image" type="base64" file="l10n_fr_payment_payfip/static/src/img/payfip_icon.png"/>
-<!--        <field name="payment_type">inbound</field>-->
-    </record>
 
-    <record id="account_payment_method_payfip" model="account.payment.method">
-        <field name="name">PayFIP</field>
-        <field name="code">payfip</field>
-        <field name="payment_type">inbound</field>
-    </record>
 </odoo>
