@@ -13,6 +13,7 @@
     },
     'depends': [
         'payment',
+        'website_sale',
         'l10n_fr'
     ],
     'qweb': [],
