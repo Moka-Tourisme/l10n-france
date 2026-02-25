@@ -235,7 +235,8 @@ msgstr "Fichier DAS2 supprimé."
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 msgid ""
-"DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key."
+"DAS2 file generated. Encrypted with DGFiP's <b>%(encryption)s</b> PGP key "
+"using pyfrdas2 version %(pyfrdas2version)s."
 msgstr ""
 
 #. module: l10n_fr_das2
@@ -362,7 +363,6 @@ msgstr "Si activé, de nouveaux messages nécessitent votre attention."
 
 #. module: l10n_fr_das2
 #: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_error
-#: model:ir.model.fields,help:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si activé, des messages ont une erreur d'envoi."
 
@@ -480,6 +480,14 @@ msgstr "Contact administratif manquant."
 #. module: l10n_fr_das2
 #. odoo-python
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+msgid ""
+"Missing birth date on partner '%s'. This information is required for "
+"physical persons in foreign EU countries."
+msgstr ""
+
+#. module: l10n_fr_das2
+#. odoo-python
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 msgid "Missing city on partner '%s'."
 msgstr "Ville manquante pour le partenaire '%s'."
 
@@ -569,6 +577,15 @@ msgid "Outils issus des NTIC"
 msgstr "Outils issus des NTIC"
 
 #. module: l10n_fr_das2
+#. odoo-python
+#: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
+msgid ""
+"Partner '%(partner_name)s' is a physical person in country %(country)s which "
+"is a foreign EU country. So you must install the OCA module "
+"'partner_contact_birthdate' and set the birth date of this partner."
+msgstr ""
+
+#. module: l10n_fr_das2
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__partner_declare_threshold
 msgid "Partner Declaration Threshold"
 msgstr "Seuil de déclaration du bénéficiaire"
@@ -624,11 +641,6 @@ msgstr "SIRET"
 #: code:addons/l10n_fr_das2/models/l10n_fr_das2.py:0
 msgid "SIRET '%(siret)s' of supplier '%(partner)s' is invalid."
 msgstr ""
-
-#. module: l10n_fr_das2
-#: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr "Erreur d'envoi du SMS"
 
 #. module: l10n_fr_das2
 #: model:ir.model.constraint,message:l10n_fr_das2.constraint_l10n_fr_das2_line_partner_parent_unique
@@ -772,6 +784,9 @@ msgstr "Historique des échanges sur le site Web"
 #: model:ir.model.fields,field_description:l10n_fr_das2.field_l10n_fr_das2__year
 msgid "Year"
 msgstr "Année"
+
+#~ msgid "SMS Delivery error"
+#~ msgstr "Erreur d'envoi du SMS"
 
 #~ msgid ""
 #~ "A special character in the DAS2 file is not in the latin1 table. Please "

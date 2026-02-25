@@ -45,7 +45,7 @@ class PosPaymentMethod(models.Model):
     )
     def _check_fr_caisse_ap_ip(self):
         for method in self:
-            if method.use_payment_terminal == "caisse_ap_ip":
+            if method.use_payment_terminal == "fr-caisse_ap_ip":
                 if not method.fr_caisse_ap_ip_address:
                     raise ValidationError(
                         _(
@@ -235,10 +235,10 @@ class PosPaymentMethod(models.Model):
 
     def _fr_caisse_ap_ip_answer(self, answer, msg_dict):
         answer_dict = self._fr_caisse_ap_ip_parse_answer(answer)
-        check_res = self._fr_caisse_ap_ip_check_answer(answer_dict, msg_dict)
-        if isinstance(check_res, dict):
-            return check_res
         if answer_dict.get("AE") == "10":
+            check_res = self._fr_caisse_ap_ip_check_answer(answer_dict, msg_dict)
+            if isinstance(check_res, dict):
+                return check_res
             res = self._fr_caisse_ap_ip_prepare_success(answer_dict)
         elif answer_dict.get("AE") == "01":
             res = self._fr_caisse_ap_ip_prepare_failure(answer_dict)
