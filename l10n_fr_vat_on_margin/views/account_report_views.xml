@@ -35,7 +35,7 @@
                  rather than patching that template, which is shared by every
                  report of every module. -->
             <xpath expr="//t[@t-set='tax_totals']" position="attributes">
-                <attribute name="t-value">o.invoice_line_ids.tax_ids._filter_margin_tax_totals(o.tax_totals)</attribute>
+                <attribute name="t-value">o.invoice_line_ids.tax_ids._filter_margin_tax_totals(o.tax_totals, o.currency_id)</attribute>
             </xpath>
         </field>
     </record>

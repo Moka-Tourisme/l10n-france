@@ -22,7 +22,7 @@
             </xpath>
 
             <xpath expr="//t[@t-set='tax_totals']" position="attributes">
-                <attribute name="t-value">o.order_line.taxes_id._filter_margin_tax_totals(o.tax_totals)</attribute>
+                <attribute name="t-value">o.order_line.taxes_id._filter_margin_tax_totals(o.tax_totals, o.currency_id)</attribute>
             </xpath>
         </field>
     </record>

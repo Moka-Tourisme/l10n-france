@@ -173,6 +173,13 @@ msgid "Select a seller for this product"
 msgstr "Sélectionnez un vendeur pour ce produit"
 
 #. module: l10n_fr_vat_on_margin
+#. odoo-python
+#: code:addons/l10n_fr_vat_on_margin/models/account_tax.py:0
+#, python-format
+msgid "Subtotal"
+msgstr "Sous-total"
+
+#. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_move_line__vendor_id
 msgid "Supplier"
 msgstr "Fournisseur"

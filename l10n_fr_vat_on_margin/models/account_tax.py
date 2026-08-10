@@ -50,7 +50,7 @@ class AccountTax(models.Model):
     #         return tax_amount
     #     return 0.0
     #
-    def _filter_margin_tax_totals(self, tax_totals):
+    def _filter_margin_tax_totals(self, tax_totals, currency=None):
         """Strip the margin VAT from a totals block about to be printed.
 
         Art. 297 E of the CGI forbids showing the VAT on a document sold under
@@ -71,17 +71,48 @@ class AccountTax(models.Model):
 
         totals = dict(tax_totals)
         groups_by_subtotal = {}
+        hidden_tax = 0.0
         for subtotal_name, groups in (totals.get('groups_by_subtotal') or {}).items():
-            kept = [g for g in groups if g['tax_group_id'] not in margin_group_ids]
+            kept = []
+            for group in groups:
+                if group['tax_group_id'] in margin_group_ids:
+                    hidden_tax += group['tax_group_amount']
+                else:
+                    kept.append(group)
             if kept:
                 groups_by_subtotal[subtotal_name] = kept
         totals['groups_by_subtotal'] = groups_by_subtotal
         # A subtotal left without any group would print an untaxed amount whose
         # difference with the total gives the hidden VAT away.
-        totals['subtotals'] = [
+        subtotals = [
             s for s in (totals.get('subtotals') or [])
             if groups_by_subtotal.get(s['name'])
         ]
+
+        # A document mixing margin and ordinary lines keeps a subtotal, since
+        # the ordinary VAT must stay visible and the template nests the tax
+        # rows inside it. That subtotal is the untaxed amount of every line,
+        # margin ones included, so subtracting the ordinary base from it gives
+        # the margin net, and the total then gives the margin VAT. Adding back
+        # the VAT just hidden turns it into the sum of the amounts actually
+        # printed on the lines, which discloses nothing the reader cannot
+        # already see, and it is renamed since an untaxed amount is what it is
+        # no longer. Left alone when several subtotals are in play: the hidden
+        # tax belongs to one of them and guessing which would be worse than
+        # not touching them.
+        if len(subtotals) == 1 and hidden_tax:
+            name = _("Subtotal")
+            amount = subtotals[0]['amount'] + hidden_tax
+            groups_by_subtotal = {name: groups_by_subtotal[subtotals[0]['name']]}
+            totals['groups_by_subtotal'] = groups_by_subtotal
+            subtotals = [{
+                'name': name,
+                'amount': amount,
+                'formatted_amount': formatLang(self.env, amount, currency_obj=currency)
+                if currency else subtotals[0]['formatted_amount'],
+            }]
+
+        totals['subtotals'] = subtotals
         return totals
 
     def _convert_to_tax_base_line_dict(
