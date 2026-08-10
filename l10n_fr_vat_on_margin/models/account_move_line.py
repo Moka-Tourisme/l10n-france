@@ -18,7 +18,6 @@ class AccountMoveLine(models.Model):
     vendor_price = fields.Float(
         string="Supplier Price",
         help="Price of the product for the supplier",
-        domain="[('id', 'in', available_vendor_ids)]",
         compute="_compute_vendor_price", store=True
     )
 
