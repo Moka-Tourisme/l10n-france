@@ -6,16 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-22 11:11+0000\n"
-"PO-Revision-Date: 2025-07-22 13:16+0200\n"
+"POT-Creation-Date: 2026-08-10 14:13+0000\n"
+"PO-Revision-Date: 2026-08-10 14:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.6\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_tax__amount_type
@@ -30,31 +28,31 @@ msgid ""
 "        e.g 180 / (1 - 10%) = 200 (not price included)\n"
 "        e.g 200 * (1 - 10%) = 180 (price included)\n"
 "        "
-msgstr "\n- Groupe de taxes : la taxe est un ensemble de sous-taxes\n- Fixe : le montant de la taxe est fixe quel que soit le prix\n- Pourcentage du prix : le montant de la taxe est un pourcentage du prix :\n      par ex. : 100 * (1+10%) = 110 (prix exprimé HT)\n                  110 / (1+10%) = 100 (prix exprimé TTC)\n- Pourcentage du prix taxe comprise : le montant de la taxe est une division du prix\n      par ex. : 180 / (1 - 10%) = 200\n                 200 * (1 - 10%) = 180"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #. odoo-python
 #: code:addons/l10n_fr_vat_on_margin/models/account_move_line.py:0
 #, python-format
 msgid "(Discount)"
-msgstr "(Remise)"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model_terms:ir.ui.view,arch_db:l10n_fr_vat_on_margin.account_tax_form_view
 msgid ""
 "<span class=\"o_form_label oe_inline\" "
 "attrs=\"{'invisible':[('amount_type','=','fixed')]}\">%</span>"
-msgstr "<span class=\"o_form_label oe_inline\" attrs=\"{'invisible':[('amount_type','=','fixed')]}\">%</span>"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_move_line__available_vendor_ids
 msgid "Available Vendor"
-msgstr "Fournisseurs disponibles"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_fiscal_position__vat_on_margin
 msgid "Check this box if the fiscal position applies to VAT on margin."
-msgstr "Cochez cette case si la position fiscale s'applique à la TVA sur marge."
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_product_category__vat_on_margin
@@ -63,151 +61,151 @@ msgstr "Cochez cette case si la position fiscale s'applique à la TVA sur marge.
 msgid ""
 "Check this box if the products in this category are subject to VAT on "
 "margin."
-msgstr "Cochez cette case si les produits de cette catégorie sont soumis à la TVA sur marge."
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_tax__vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_tax_template__vat_on_margin
 msgid "Check this box if the tax is a VAT on margin."
-msgstr "Cochez cette case si la taxe est une TVA sur marge."
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model_terms:ir.ui.view,arch_db:l10n_fr_vat_on_margin.product_template_form_view
 msgid "Concerned by VAT on Margin"
-msgstr "Concerné par la TVA sur marge"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_account_fiscal_position
 msgid "Fiscal Position"
-msgstr "Position fiscale"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_move_line__margin
 msgid "Gross margin (Sales - Purchase)"
-msgstr "Marge brute (ventes - achats)"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_account_move_line
 msgid "Journal Item"
-msgstr "Écriture comptable"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_move_line__line_concerned_by_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_sale_order_line__line_concerned_by_margin
 msgid "Line Concerned by Margin"
-msgstr "Ligne concernée par la TVA sur marge"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_move_line__margin
 #: model:ir.model.fields.selection,name:l10n_fr_vat_on_margin.selection__account_tax__tax_calculation_method__margin
 #: model:ir.model.fields.selection,name:l10n_fr_vat_on_margin.selection__account_tax_template__tax_calculation_method__margin
 msgid "Margin"
-msgstr "Marge"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_sale_order_line__margin_amount_untaxed
 msgid "Margin Amount Before Tax"
-msgstr "Montant de la marge avant la taxe"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields.selection,name:l10n_fr_vat_on_margin.selection__account_tax__amount_type__margin_percentage
 #: model:ir.model.fields.selection,name:l10n_fr_vat_on_margin.selection__account_tax_template__amount_type__margin_percentage
 msgid "Margin Percentage"
-msgstr "Pourcentage de la marge"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_sale_order_line__margin_amount_untaxed
 msgid "Margin amount before tax."
-msgstr "Montant de la marge avant la taxe."
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_tax__tax_calculation_method
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_tax_template__tax_calculation_method
 msgid "Method used for calculating tax"
-msgstr "Méthode de calcul de la taxe"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields.selection,name:l10n_fr_vat_on_margin.selection__account_tax__tax_calculation_method__normal
 #: model:ir.model.fields.selection,name:l10n_fr_vat_on_margin.selection__account_tax_template__tax_calculation_method__normal
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_sale_order__order_concerned_by_margin
 msgid "Order Concerned by Margin"
-msgstr "Commande concernée par la marge"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_move_line__vendor_price
 msgid "Price of the product for the supplier"
-msgstr "Prix du produit pour le fournisseur"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_product_template
 msgid "Product"
-msgstr "Produit"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_product_category
 msgid "Product Category"
-msgstr "Catégorie de produit"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_move_line__purchase_price
 msgid "Purchase Price"
-msgstr "Prix d'achat"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_sale_order
 msgid "Sales Order"
-msgstr "Commande client"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Ligne de commande"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,help:l10n_fr_vat_on_margin.field_account_move_line__vendor_id
 msgid "Select a seller for this product"
-msgstr "Sélectionnez un vendeur pour ce produit"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_move_line__vendor_id
 msgid "Supplier"
-msgstr "Fournisseur"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_move_line__vendor_price
 msgid "Supplier Price"
-msgstr "Prix Fournisseur"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:account.tax.group,name:l10n_fr_vat_on_margin.tax_group_margin_vat
 msgid "TVA sur marge"
-msgstr "TVA sur marge"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_account_tax
 msgid "Tax"
-msgstr "Taxe"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_tax__tax_calculation_method
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_tax_template__tax_calculation_method
 msgid "Tax Calculation Method"
-msgstr "Méthode de calcul de la taxe"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_tax__amount_type
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_tax_template__amount_type
 msgid "Tax Computation"
-msgstr "Calcul de la taxe"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model,name:l10n_fr_vat_on_margin.model_account_tax_template
 msgid "Templates for Taxes"
-msgstr "Modèles de taxes"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #. odoo-python
@@ -216,7 +214,7 @@ msgstr "Modèles de taxes"
 msgid ""
 "This order is concerned by VAT on margin. You should select the VAT on "
 "margin fiscal position."
-msgstr "Cette commande est concernée par la TVA sur marge. Vous devez sélectionner la position fiscale TVA sur marge."
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #: model:ir.model.fields,field_description:l10n_fr_vat_on_margin.field_account_fiscal_position__vat_on_margin
@@ -228,11 +226,11 @@ msgstr "Cette commande est concernée par la TVA sur marge. Vous devez sélectio
 #: model_terms:ir.ui.view,arch_db:l10n_fr_vat_on_margin.product_category_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_fr_vat_on_margin.view_category_property_form
 msgid "VAT on Margin"
-msgstr "TVA sur marge"
+msgstr ""
 
 #. module: l10n_fr_vat_on_margin
 #. odoo-python
 #: code:addons/l10n_fr_vat_on_margin/models/sale_order_line.py:0
 #, python-format
 msgid "Warning"
-msgstr "Attention"
+msgstr ""
