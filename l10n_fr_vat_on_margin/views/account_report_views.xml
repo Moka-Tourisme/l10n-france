@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <!-- Printed customer invoice under the margin scheme.
+
+         The VAT must not appear (art. 297 E CGI). What must NOT disappear is
+         the amount of each line: hiding the whole column left the printed
+         document without any figure per line, and the customer had to redo
+         the multiplication to check the invoice. -->
     <record id="report_invoice_document_inherit" model="ir.ui.view">
-        <field name="name">report.invoice.document.vat</field>
+        <field name="name">report.invoice.document.vat.on.margin</field>
         <field name="inherit_id" ref="account.report_invoice_document"/>
         <field name="arch" type="xml">
-            <xpath expr="//th[@name='th_subtotal']" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
-            </xpath>
             <xpath expr="//th[@name='th_taxes']" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
-            </xpath>
-            <xpath expr="//td[hasclass('o_price_total')]" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+                <attribute name="t-if">not o.invoice_line_ids.tax_ids.filtered('vat_on_margin')</attribute>
             </xpath>
             <xpath expr="//td[@name='td_taxes']" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+                <attribute name="t-if">not o.invoice_line_ids.tax_ids.filtered('vat_on_margin')</attribute>
             </xpath>
-            <t t-call="account.document_tax_totals" position="before">
-                <t t-set="vat_on_margin" t-value="o.fiscal_position_id.vat_on_margin"/>
-            </t>
 
+            <!-- The amount column stays. A margin line prints its all-in
+                 price: on a B2B database the native cell shows the untaxed
+                 amount, and next to the total that gives away the VAT, hence
+                 the margin and the purchase price. -->
+            <xpath expr="//td[hasclass('o_price_total')]/span[@t-field='line.price_subtotal']" position="attributes">
+                <attribute name="t-if">not line.line_concerned_by_margin</attribute>
+            </xpath>
+            <xpath expr="//td[hasclass('o_price_total')]/span[@t-field='line.price_total']" position="attributes">
+                <attribute name="t-if">not line.line_concerned_by_margin</attribute>
+            </xpath>
+            <xpath expr="//td[hasclass('o_price_total')]" position="inside">
+                <span t-if="line.line_concerned_by_margin" class="text-nowrap" t-field="line.price_total"/>
+            </xpath>
+
+            <!-- Hand the generic template a block without the margin VAT,
+                 rather than patching that template, which is shared by every
+                 report of every module. -->
+            <xpath expr="//t[@t-set='tax_totals']" position="attributes">
+                <attribute name="t-value">o.invoice_line_ids.tax_ids._filter_margin_tax_totals(o.tax_totals)</attribute>
+            </xpath>
         </field>
     </record>
-    <record id="document_tax_totals_inherit" model="ir.ui.view">
-        <field name="name">document.tax.totals.vat</field>
-        <field name="inherit_id" ref="account.document_tax_totals"/>
-        <field name="arch" type="xml">
-            <xpath expr='//t[@t-foreach="tax_totals[&#39;subtotals&#39;]"]' position="attributes">
-                <attribute name="t-if">not vat_on_margin</attribute>
-            </xpath>
-            <xpath expr='//t[@t-foreach="tax_totals[&#39;subtotals&#39;]"]' position="inside">
-                <t t-out="vat_on_margin"/>
-            </xpath>
-            <!--            <xpath expr="//t[contains(@t-if, 'formatted_rounding_amount')]" position="attributes">-->
-            <!--                <attribute name="t-if">'formatted_rounding_amount' in tax_totals and tax_totals['rounding_amount'] != 0-->
-            <!--                    or not vat_on_margin-->
-            <!--                </attribute>-->
-            <!--            </xpath>-->
-        </field>
-    </record>
-
 </odoo>

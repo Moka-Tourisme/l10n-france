@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Printed purchase order, same treatment as the sale side. -->
     <record id="report_purchaseorder_document_inherit" model="ir.ui.view">
-        <field name="name">report.purchaseorder.document.vat</field>
+        <field name="name">report.purchaseorder.document.vat.on.margin</field>
         <field name="inherit_id" ref="purchase.report_purchaseorder_document"/>
         <field name="arch" type="xml">
-            <xpath expr="//th[@name='th_amount']" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
-            </xpath>
             <xpath expr="//th[@name='th_taxes']" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
-            </xpath>
-            <xpath expr="//span[@t-field='line.price_subtotal']/ancestor::td[1]" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
-            </xpath>
-            <xpath expr="//span[@t-field='line.price_subtotal']//ancestor::td" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+                <attribute name="t-if">not o.order_line.taxes_id.filtered('vat_on_margin')</attribute>
             </xpath>
             <xpath expr="//td[@name='td_taxes']" position="attributes">
-                <attribute name="t-if">not o.fiscal_position_id.vat_on_margin</attribute>
+                <attribute name="t-if">not o.order_line.taxes_id.filtered('vat_on_margin')</attribute>
             </xpath>
-            <t t-call="account.document_tax_totals" position="before">
-                <t t-set="vat_on_margin" t-value="o.fiscal_position_id.vat_on_margin"/>
-            </t>
+
+            <xpath expr="//span[@t-field='line.price_subtotal']" position="attributes">
+                <attribute name="t-if">not line.taxes_id.filtered('vat_on_margin')</attribute>
+            </xpath>
+            <xpath expr="//span[@t-field='line.price_subtotal']/.." position="inside">
+                <span t-if="line.taxes_id.filtered('vat_on_margin')"
+                      t-field="line.price_total"
+                      t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+            </xpath>
+
+            <xpath expr="//t[@t-set='tax_totals']" position="attributes">
+                <attribute name="t-value">o.order_line.taxes_id._filter_margin_tax_totals(o.tax_totals)</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

@@ -50,6 +50,40 @@ class AccountTax(models.Model):
     #         return tax_amount
     #     return 0.0
     #
+    def _filter_margin_tax_totals(self, tax_totals):
+        """Strip the margin VAT from a totals block about to be printed.
+
+        Art. 297 E of the CGI forbids showing the VAT on a document sold under
+        the margin scheme. Filtering the dict handed to the generic template
+        replaces patching account.document_tax_totals, which every report of
+        every module calls: the override made it read a variable only this
+        module ever set, so any other caller raised.
+
+        The on-screen widget is untouched; the seller still sees the VAT.
+
+        :param tax_totals: the dict produced by _prepare_tax_totals.
+        :return: a copy without the margin groups, or the dict itself when
+                 self carries no margin tax.
+        """
+        margin_group_ids = self.filtered('vat_on_margin').tax_group_id.ids
+        if not margin_group_ids:
+            return tax_totals
+
+        totals = dict(tax_totals)
+        groups_by_subtotal = {}
+        for subtotal_name, groups in (totals.get('groups_by_subtotal') or {}).items():
+            kept = [g for g in groups if g['tax_group_id'] not in margin_group_ids]
+            if kept:
+                groups_by_subtotal[subtotal_name] = kept
+        totals['groups_by_subtotal'] = groups_by_subtotal
+        # A subtotal left without any group would print an untaxed amount whose
+        # difference with the total gives the hidden VAT away.
+        totals['subtotals'] = [
+            s for s in (totals.get('subtotals') or [])
+            if groups_by_subtotal.get(s['name'])
+        ]
+        return totals
+
     def _convert_to_tax_base_line_dict(
             self, base_line,
             partner=None, currency=None, product=None, taxes=None, price_unit=None, price_unit_margin=None,
