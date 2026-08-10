@@ -59,15 +59,17 @@ class AccountTax(models.Model):
             handle_price_include=True,
             extra_context=None,
     ):
-        print("=== _convert_to_tax_base_line_dict account_tax ===", taxes)
+        taxes = taxes or self.env['account.tax']
         return {
             'record': base_line,
             'partner': partner or self.env['res.partner'],
             'currency': currency or self.env['res.currency'],
             'product': product or self.env['product.product'],
-            'taxes': taxes or self.env['account.tax'],
+            'taxes': taxes,
             'price_unit': price_unit or 0.0,
-            'price_unit_margin': price_unit_margin if taxes.vat_on_margin else 0.0,
+            # Keep the raw margin, negative values included: the tax computation must
+            # be able to tell "no margin scheme" from "margin scheme, nothing to tax".
+            'price_unit_margin': (price_unit_margin or 0.0) if any(taxes.mapped('vat_on_margin')) else 0.0,
             'quantity': quantity or 0.0,
             'discount': discount or 0.0,
             'account': account or self.env['account.account'],
@@ -79,158 +81,17 @@ class AccountTax(models.Model):
             'extra_context': extra_context or {},
         }
 
-    @api.model
-    def _prepare_tax_totals(self, base_lines, currency, tax_lines=None):
-        print("=== base_lines ===", base_lines)
-        print("=== tax_lines ===", tax_lines)
-        """ Compute the tax totals details for the business documents.
-        :param base_lines:  A list of python dictionaries created using the '_convert_to_tax_base_line_dict' method.
-        :param currency:    The currency set on the business document.
-        :param tax_lines:   Optional list of python dictionaries created using the '_convert_to_tax_line_dict' method.
-                            If specified, the taxes will be recomputed using them instead of recomputing the taxes on
-                            the provided base lines.
-        :return: A dictionary in the following form:
-            {
-                'amount_total':                 The total amount to be displayed on the document, including every total
-                                                types.
-                'amount_untaxed':               The untaxed amount to be displayed on the document.
-                'formatted_amount_total':       Same as amount_total, but as a string formatted accordingly with
-                                                partner's locale.
-                'formatted_amount_untaxed':     Same as amount_untaxed, but as a string formatted accordingly with
-                                                partner's locale.
-                'groups_by_subtotals':          A dictionary formed liked {'subtotal': groups_data}
-                                                Where total_type is a subtotal name defined on a tax group, or the
-                                                default one: 'Untaxed Amount'.
-                                                And groups_data is a list of dict in the following form:
-                    {
-                        'tax_group_name':                   The name of the tax groups this total is made for.
-                        'tax_group_amount':                 The total tax amount in this tax group.
-                        'tax_group_base_amount':            The base amount for this tax group.
-                        'formatted_tax_group_amount':       Same as tax_group_amount, but as a string formatted accordingly
-                                                            with partner's locale.
-                        'formatted_tax_group_base_amount':  Same as tax_group_base_amount, but as a string formatted
-                                                            accordingly with partner's locale.
-                        'tax_group_id':                     The id of the tax group corresponding to this dict.
-                    }
-                'subtotals':                    A list of dictionaries in the following form, one for each subtotal in
-                                                'groups_by_subtotals' keys.
-                    {
-                        'name':                             The name of the subtotal
-                        'amount':                           The total amount for this subtotal, summing all the tax groups
-                                                            belonging to preceding subtotals and the base amount
-                        'formatted_amount':                 Same as amount, but as a string formatted accordingly with
-                                                            partner's locale.
-                    }
-                'subtotals_order':              A list of keys of `groups_by_subtotals` defining the order in which it needs
-                                                to be displayed
-            }
-        """
-
-        # ==== Compute the taxes ====
-
-        to_process = []
-        for base_line in base_lines:
-            to_update_vals, tax_values_list = self._compute_taxes_for_single_line(base_line)
-            to_process.append((base_line, to_update_vals, tax_values_list))
-
-        def grouping_key_generator(base_line, tax_values):
-            source_tax = tax_values['tax_repartition_line'].tax_id
-            return {'tax_group': source_tax.tax_group_id}
-
-        global_tax_details = self._aggregate_taxes(to_process, grouping_key_generator=grouping_key_generator)
-
-        tax_group_vals_list = []
-        for tax_detail in global_tax_details['tax_details'].values():
-            tax_group_vals = {
-                'tax_group': tax_detail['tax_group'],
-                'base_amount': tax_detail['base_amount_currency'],
-                'tax_amount': tax_detail['tax_amount_currency'],
-                'hide_base_amount': all(
-                    x['tax_repartition_line'].tax_id.amount_type == 'fixed' for x in tax_detail['group_tax_details']),
-            }
-
-            # Handle a manual edition of tax lines.
-            if tax_lines is not None:
-                matched_tax_lines = [
-                    x
-                    for x in tax_lines
-                    if x['tax_repartition_line'].tax_id.tax_group_id == tax_detail['tax_group']
-                ]
-                if matched_tax_lines:
-                    tax_group_vals['tax_amount'] = sum(x['tax_amount'] for x in matched_tax_lines)
-
-            tax_group_vals_list.append(tax_group_vals)
-
-        tax_group_vals_list = sorted(tax_group_vals_list, key=lambda x: (x['tax_group'].sequence, x['tax_group'].id))
-
-        # ==== Partition the tax group values by subtotals ====
-
-        amount_untaxed = global_tax_details['base_amount_currency']
-        amount_tax = 0.0
-
-        subtotal_order = {}
-        groups_by_subtotal = defaultdict(list)
-        for tax_group_vals in tax_group_vals_list:
-            tax_group = tax_group_vals['tax_group']
-
-            subtotal_title = tax_group.preceding_subtotal or _("Untaxed Amount")
-            sequence = tax_group.sequence
-
-            subtotal_order[subtotal_title] = min(subtotal_order.get(subtotal_title, float('inf')), sequence)
-            groups_by_subtotal[subtotal_title].append({
-                'group_key': tax_group.id,
-                'tax_group_id': tax_group.id,
-                'tax_group_name': tax_group.name,
-                'tax_group_amount': tax_group_vals['tax_amount'],
-                'tax_group_base_amount': tax_group_vals['base_amount'],
-                'formatted_tax_group_amount': formatLang(self.env, tax_group_vals['tax_amount'], currency_obj=currency),
-                'formatted_tax_group_base_amount': formatLang(self.env, tax_group_vals['base_amount'],
-                                                              currency_obj=currency),
-                'hide_base_amount': tax_group_vals['hide_base_amount'],
-            })
-
-        # ==== Build the final result ====
-
-        subtotals = []
-        for subtotal_title in sorted(subtotal_order.keys(), key=lambda k: subtotal_order[k]):
-            amount_total = amount_untaxed + amount_tax
-            subtotals.append({
-                'name': subtotal_title,
-                'amount': amount_total,
-                'formatted_amount': formatLang(self.env, amount_total, currency_obj=currency),
-            })
-            amount_tax += sum(x['tax_group_amount'] for x in groups_by_subtotal[subtotal_title])
-
-        amount_total = amount_untaxed + amount_tax
-
-        display_tax_base = (len(global_tax_details['tax_details']) == 1 and currency.compare_amounts(
-            tax_group_vals_list[0]['base_amount'], amount_untaxed) != 0) \
-                           or len(global_tax_details['tax_details']) > 1
-
-        return {
-            'amount_untaxed': currency.round(amount_untaxed) if currency else amount_untaxed,
-            'amount_total': currency.round(amount_total) if currency else amount_total,
-            'formatted_amount_total': formatLang(self.env, amount_total, currency_obj=currency),
-            'formatted_amount_untaxed': formatLang(self.env, amount_untaxed, currency_obj=currency),
-            'groups_by_subtotal': groups_by_subtotal,
-            'subtotals': subtotals,
-            'subtotals_order': sorted(subtotal_order.keys(), key=lambda k: subtotal_order[k]),
-            'display_tax_base': display_tax_base
-        }
 
     @api.model
     def _compute_taxes_for_single_line(self, base_line, handle_price_include=True, include_caba_tags=False,
                                        early_pay_discount_computation=None, early_pay_discount_percentage=None):
-        print("=== base_line ===", base_line)
-        price_unit_margin = 0.0
         orig_price_unit_after_discount = base_line['price_unit'] * (1 - (base_line['discount'] / 100.0))
-        if base_line['price_unit_margin'] != 0.0 and base_line['price_unit_margin'] > 0.0:
-            print("=== ICI price_unit_margin pas nul ===", base_line['price_unit_margin'])
-            price_unit_margin = base_line['price_unit_margin']
-            print("=== price_unit_margin result ===", price_unit_margin)
+        # Forward the margin as-is; clamping it to zero here would make a negative
+        # margin indistinguishable from a line that has no margin scheme at all.
+        price_unit_margin = base_line['price_unit_margin']
         price_unit_after_discount = orig_price_unit_after_discount
         taxes = base_line['taxes']._origin
-        print("=== taxes ===", taxes, taxes.vat_on_margin, taxes.mapped('tax_calculation_method'))
+        vat_on_margin = any(taxes.mapped('vat_on_margin'))
         currency = base_line['currency'] or self.env.company.currency_id
         rate = base_line['rate']
 
@@ -248,7 +109,7 @@ class AccountTax(models.Model):
                 is_refund=base_line['is_refund'],
                 handle_price_include=base_line['handle_price_include'],
                 include_caba_tags=include_caba_tags,
-                price_unit_margin=price_unit_margin if taxes.vat_on_margin else 0.0,
+                price_unit_margin=price_unit_margin if vat_on_margin else 0.0,
             )
 
             to_update_vals = {
@@ -267,7 +128,7 @@ class AccountTax(models.Model):
                     is_refund=base_line['is_refund'],
                     handle_price_include=base_line['handle_price_include'],
                     include_caba_tags=include_caba_tags,
-                    price_unit_margin=price_unit_margin if taxes.vat_on_margin else 0.0,
+                    price_unit_margin=price_unit_margin if vat_on_margin else 0.0,
                 )
                 for tax_res, new_taxes_res in zip(taxes_res['taxes'], new_taxes_res['taxes']):
                     delta_tax = new_taxes_res['amount'] - tax_res['amount']
@@ -302,7 +163,6 @@ class AccountTax(models.Model):
 
     def compute_all(self, price_unit, currency=None, quantity=1.0, product=None, partner=None, is_refund=False,
                     handle_price_include=True, include_caba_tags=False, fixed_multiplicator=1, **kwargs):
-        print("=== compute_all ===", kwargs.get('price_unit_margin'))
         """Compute all information required to apply taxes (in self + their children in case of a tax group).
         We consider the sequence of the parent for group of taxes.
             Eg. considering letters as taxes and alphabetic order as sequence :
@@ -415,28 +275,27 @@ class AccountTax(models.Model):
                 'fixed_amount': 0.0,
             })
 
-            print("=== base_amount ===", base_amount)
-            print("=== fixed_amount ===", fixed_amount)
-            print("=== percent_amount ===", percent_amount)
-            print("=== division_amount ===", division_amount)
-            print("=== result ===", (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
-            print("=== kwargs ===", kwargs.get('price_unit_margin'), type(kwargs.get('price_unit_margin')))
-            print("=== SELF ICI===", self)
-            if self.vat_on_margin:
-                if kwargs.get('price_unit_margin') and kwargs.get('price_unit_margin') != 0.0 and kwargs.get('price_unit_margin') > 0.0 and type(kwargs.get('price_unit_margin')) == float:
-                    print("=== ICI 1=== ", base_amount, kwargs.get('price_unit_margin'), fixed_amount, percent_amount, division_amount)
-                    result_1 = base_amount - kwargs.get('price_unit_margin') + ((kwargs.get('price_unit_margin') - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100)
-                    print("=== ICI 1 ====", result_1)
-                    return result_1
-                else:
-                    result = (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (
-                            100 - division_amount) / 100
-                    return result
-            else:
-                print("=== ICI 2 ===")
-                result =  (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) * (100 - division_amount) / 100
-                print("=== ICI 3 ===", result)
-                return result
+            standard_base = (base_amount - fixed_amount) / (1.0 + percent_amount / 100.0) \
+                * (100 - division_amount) / 100
+
+            # 'self' holds every tax of the line, not a single one. Testing the flag
+            # on the recordset itself raises "Expected singleton" as soon as a line
+            # carries two taxes (e.g. margin VAT + eco-contribution).
+            if not any(self.mapped('vat_on_margin')):
+                return standard_base
+
+            price_unit_margin = kwargs.get('price_unit_margin') or 0.0
+            if price_unit_margin > 0.0:
+                # Only the margin bears the VAT, the rest of the price stays untaxed.
+                return base_amount - price_unit_margin + (
+                    (price_unit_margin - fixed_amount) / (1.0 + percent_amount / 100.0)
+                    * (100 - division_amount) / 100
+                )
+
+            # Nil or negative margin: no VAT is due under the margin scheme, so the
+            # whole price is the untaxed base. Falling back to the standard formula
+            # would tax the full price instead of nothing.
+            return base_amount
 
         # The first/last base must absolutely be rounded to work in round globally.
         # Indeed, the sum of all taxes ('taxes' key in the result dictionary) must be strictly equals to
@@ -492,7 +351,6 @@ class AccountTax(models.Model):
         cached_tax_amounts = {}
         is_base_affected = True
         if handle_price_include:
-            print("=== handle_price_include ===")
             for tax in reversed(taxes):
                 tax_repartition_lines = (
                         is_refund
@@ -503,7 +361,6 @@ class AccountTax(models.Model):
 
                 if tax.include_base_amount and is_base_affected:
                     base = recompute_base(base, incl_tax_amounts)
-                    print("=== base ici ===", base)
                     store_included_tax_total = True
                 if self._context.get('force_price_include', tax.price_include):
                     if tax.amount_type == 'percent' or tax.amount_type == 'margin_percentage':
@@ -533,9 +390,21 @@ class AccountTax(models.Model):
                 is_base_affected = tax.is_base_affected
 
         total_excluded = recompute_base(base, incl_tax_amounts)
-        print("=== total_excluded ===", total_excluded)
         if self._context.get('round_base', True):
             total_excluded = currency.round(total_excluded)
+
+        # Under the margin scheme the taxable base is the margin excluding tax,
+        # not the net price. It is what the tax line stores as tax_base_amount
+        # and therefore what the VAT return adds up: reporting the net price
+        # yields a base and a tax amount that do not match the rate.
+        # Derived from total_excluded rather than redoing the rate arithmetic,
+        # since recompute_base() returned base - margin_incl + margin_excl.
+        margin_tax_base = None
+        if any(self.mapped('vat_on_margin')):
+            margin_incl = kwargs.get('price_unit_margin') or 0.0
+            margin_tax_base = (
+                total_excluded - base + margin_incl if margin_incl > 0.0 else 0.0
+            )
 
         # 4) Iterate the taxes in the sequence order to compute missing tax amounts.
         # Start the computation of accumulated amounts at the total_excluded value.
@@ -629,11 +498,17 @@ class AccountTax(models.Model):
                 else:
                     repartition_line_tags = repartition_line.tag_ids
 
+                # Only the margin tax reports the margin; a regular tax sharing
+                # the same line keeps the ordinary base.
+                reported_base = tax_base_amount
+                if margin_tax_base is not None and tax.vat_on_margin:
+                    reported_base = margin_tax_base
+
                 taxes_vals.append({
                     'id': tax.id,
                     'name': partner and tax.with_context(lang=partner.lang).name or tax.name,
                     'amount': sign * line_amount,
-                    'base': float_round(sign * tax_base_amount, precision_rounding=prec),
+                    'base': float_round(sign * reported_base, precision_rounding=prec),
                     'sequence': tax.sequence,
                     'account_id': repartition_line._get_aml_target_tax_account(
                         force_caba_exigibility=include_caba_tags).id,

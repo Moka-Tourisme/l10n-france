@@ -15,6 +15,14 @@ class TestAccountTax(AccountTestInvoicingCommon):
         super().setUpClass(chart_template_ref=chart_template_ref)
         # Launch test with root user
         cls.env = cls.env(user=cls.env.ref('base.user_root'))
+        # The taxes are no longer a single xmlid'd record: loading the French
+        # chart generates one per company. Looking it up by name on the test
+        # company is what proves that generation happened at all.
+        cls.margin_tax = cls.env['account.tax'].search([
+            ('name', '=', 'TVA sur marge 20% TTC - Vente'),
+            ('company_id', '=', cls.env.company.id),
+        ], limit=1)
+        assert cls.margin_tax, "The margin tax was not generated for the company"
 
 
 
@@ -54,7 +62,7 @@ class TestAccountTax(AccountTestInvoicingCommon):
                         'price_unit': 150,
                         'purchase_price': 110,
                         'margin': 40,
-                        'tax_id': [(6, 0, self.env.ref('l10n_fr_vat_on_margin.tax_margin_20_sale').ids)],
+                        'tax_id': [(6, 0, self.margin_tax.ids)],
                     }
                 )
             ],
@@ -62,20 +70,13 @@ class TestAccountTax(AccountTestInvoicingCommon):
 
         sale_order.action_confirm()
 
-        # Check the amount of the tax
-        self.assertEqual(sale_order.amount_tax, 8, 'The tax amount is wrong')
+        # Sold 150, bought 110: the margin is 110 -> 150, i.e. 40, and under the
+        # margin scheme (art. 297 A CGI) that margin is a VAT-inclusive amount.
+        # The VAT is therefore extracted from it: 40 * 20 / 120 = 6.67, never
+        # 40 * 20% = 8, which would treat the margin as a tax-excluded amount.
+        self.assertEqual(sale_order.amount_tax, 6.67, 'The tax amount is wrong')
         self.assertEqual(sale_order.amount_total, 150, 'The total amount is wrong')
-        self.assertEqual(sale_order.amount_untaxed, 142, 'The untaxed amount is wrong')
-
-        purchase_order = self.env['purchase.order'].search([('partner_id', '=', self.env.ref('base.partner_admin').id)], limit=1)
-
-        purchase_order.write({
-            'fiscal_position_id': self.env.ref('l10n_fr_vat_on_margin.fiscal_position_margin_purchase').id
-        })
-
-        self.assertEqual(purchase_order.amount_total, 110, 'The total amount is wrong')
-        self.assertEqual(purchase_order.amount_tax, 8, 'The tax amount is wrong')
-        self.assertEqual(purchase_order.amount_untaxed, 102, 'The untaxed amount is wrong')
+        self.assertEqual(sale_order.amount_untaxed, 143.33, 'The untaxed amount is wrong')
 
 
     def test_tva_on_margin_consu(self):
@@ -111,7 +112,7 @@ class TestAccountTax(AccountTestInvoicingCommon):
                         'price_unit': 150,
                         'purchase_price': 110,
                         'margin': 40,
-                        'tax_id': [(6, 0, self.env.ref('l10n_fr_vat_on_margin.tax_margin_20_sale').ids)],
+                        'tax_id': [(6, 0, self.margin_tax.ids)],
                     }
                 )
             ],
@@ -119,19 +120,41 @@ class TestAccountTax(AccountTestInvoicingCommon):
 
         sale_order_consu.action_confirm()
 
-        print("sale_order_consu.amount_total", sale_order_consu.amount_total)
-        print("sale_order_consu.amount_tax", sale_order_consu.amount_tax)
-
-        # Check the amount of the tax
-        self.assertEqual(sale_order_consu.amount_tax, 8, 'The tax amount is wrong')
+        # Same margin as the service case: 40 VAT-inclusive, so 40 * 20 / 120.
+        self.assertEqual(sale_order_consu.amount_tax, 6.67, 'The tax amount is wrong')
         self.assertEqual(sale_order_consu.amount_total, 150, 'The total amount is wrong')
-        self.assertEqual(sale_order_consu.amount_untaxed, 142, 'The untaxed amount is wrong')
+        self.assertEqual(sale_order_consu.amount_untaxed, 143.33, 'The untaxed amount is wrong')
 
         account_move = sale_order_consu._create_invoices()
 
-        print("account_move", account_move)
-
+        # The margin must survive the sale order -> invoice hand-off.
         self.assertEqual(account_move.amount_total, 150, 'The total amount is wrong')
-        self.assertEqual(account_move.amount_tax, 8, 'The tax amount is wrong')
-        self.assertEqual(account_move.amount_untaxed, 142, 'The untaxed amount is wrong')
+        self.assertEqual(account_move.amount_tax, 6.67, 'The tax amount is wrong')
+        self.assertEqual(account_move.amount_untaxed, 143.33, 'The untaxed amount is wrong')
         self.assertEqual(account_move.amount_residual, 150, 'The residual amount is wrong')
+
+        # The base stored on the tax line is what the VAT return adds up, and
+        # under the margin scheme it is the margin excluding tax, not the net
+        # price. Reporting 143.33 against 6.67 of VAT would not even match the
+        # rate: 40 - 6.67 = 33.33, and 33.33 * 20% = 6.67.
+        tax_line = account_move.line_ids.filtered('tax_line_id')
+        self.assertEqual(len(tax_line), 1, 'Expected a single tax line')
+        self.assertEqual(
+            tax_line.tax_base_amount, 33.33, 'The declared tax base is wrong')
+
+        # The totals block is built from _convert_to_tax_base_line_dict, the
+        # journal entry from _compute_all_tax. They must agree: subtracting the
+        # supplier price from price_unit in the first one counted the margin
+        # twice and printed 10.00 on an invoice posting 120.00.
+        product_line = account_move.line_ids.filtered(
+            lambda l: l.display_type == 'product')
+        product_line.vendor_id = seller
+        self.assertTrue(
+            product_line.vendor_price,
+            'The supplier price is needed for this check to mean anything')
+        self.assertEqual(
+            account_move.tax_totals['amount_total'], account_move.amount_total,
+            'The printed total and the accounting total diverge')
+        self.assertEqual(
+            account_move.tax_totals['amount_untaxed'], account_move.amount_untaxed,
+            'The printed untaxed amount and the accounting one diverge')

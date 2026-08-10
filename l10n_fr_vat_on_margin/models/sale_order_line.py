@@ -24,8 +24,11 @@ class SaleOrderLine(models.Model):
     @api.depends('tax_id')
     def _compute_line_concerned_by_margin(self):
         for line in self:
-            if line.tax_id.filtered(lambda tax: tax.vat_on_margin):
-                line.line_concerned_by_margin = True
+            # Assign on every branch: without the False case the flag stayed True
+            # after the margin tax was replaced by a regular one.
+            line.line_concerned_by_margin = any(
+                tax.vat_on_margin for tax in line.tax_id
+            )
 
     @api.onchange('product_id')
     def _onchange_product_id_warning_margin(self):
@@ -38,13 +41,6 @@ class SaleOrderLine(models.Model):
                             'This order is concerned by VAT on margin. You should select the VAT on margin fiscal position.')
                     }
                 }
-
-    # @api.depends('purchase_price', 'price_unit', 'product_uom_qty', 'price_total')
-    # def _compute_margin_untaxed(self):
-    #     for line in self:
-    #         print("=== _compute_margin_untaxed ===", line, line.purchase_price, line.price_unit, line.product_uom_qty,
-    #               line.price_total)
-    #         line.margin_amount_untaxed = (line.price_total - (line.purchase_price * line.product_uom_qty))
 
     @api.depends('purchase_price', 'price_unit', 'product_uom_qty', 'discount', 'tax_id')
     def _compute_margin_untaxed(self):
@@ -77,43 +73,12 @@ class SaleOrderLine(models.Model):
 
             line.margin_amount_untaxed = margin_brut_ttc
 
-            print(f"=== Margin Calculation (from TTC) ===")
-            print(f"Price unit: {line.price_unit}")
-            print(f"Discount: {line.discount}%")
-            print(f"Price after discount: {price_unit_discounted}")
-            print(f"Quantity: {line.product_uom_qty}")
-            print(f"Subtotal HT: {price_subtotal}")
-            print(f"Price TTC (calculated): {price_total_calculated}")
-            print(f"Purchase total: {purchase_total}")
-            print(f"Margin brut TTC: {margin_brut_ttc}")
-            print(f"Margin HT: {line.margin_amount_untaxed}")
-
     def _convert_to_tax_base_line_dict(self):
-        """ Convert the current record to a dictionary in order to use the generic taxes computation method
-        defined on account.tax.
-
-        :return: A python dictionary.
-        """
-        self.ensure_one()
-        price_unit_margin = 0.0
+        """Add the margin to the dict the tax engine consumes."""
+        res = super()._convert_to_tax_base_line_dict()
         if self.line_concerned_by_margin:
-            price_unit_margin = self.margin_amount_untaxed
-        else:
-            print("NON ICI")
-        result = self.env['account.tax']._convert_to_tax_base_line_dict(
-            self,
-            partner=self.order_id.partner_id,
-            currency=self.order_id.currency_id,
-            product=self.product_id,
-            taxes=self.tax_id,
-            price_unit=self.price_unit,
-            price_unit_margin=price_unit_margin,
-            quantity=self.product_uom_qty,
-            discount=self.discount,
-            price_subtotal=self.price_subtotal,
-        )
-        print("=== result ici ===", result)
-        return result
+            res['price_unit_margin'] = self.margin_amount_untaxed
+        return res
 
     @api.depends('state', 'price_reduce', 'product_id', 'untaxed_amount_invoiced', 'qty_delivered', 'product_uom_qty')
     def _compute_untaxed_amount_to_invoice(self):
@@ -170,37 +135,11 @@ class SaleOrderLine(models.Model):
             line.untaxed_amount_to_invoice = amount_to_invoice
 
     def _prepare_invoice_line(self, **optional_values):
-        """Prepare the values to create the new invoice line for a sales order line.
-        :param optional_values: any parameter that should be added to the returned invoice line
-        :rtype: dict
+        """Carry the purchase price over to the invoice line.
+
+        The whole native method used to be copied to add this single key,
+        which froze it at the version it was copied from.
         """
-        self.ensure_one()
-        res = {
-            'display_type': self.display_type or 'product',
-            'sequence': self.sequence,
-            'name': self.name,
-            'product_id': self.product_id.id,
-            'product_uom_id': self.product_uom.id,
-            'quantity': self.qty_to_invoice,
-            'discount': self.discount,
-            'price_unit': self.price_unit,
-            'purchase_price': self.purchase_price,
-            'tax_ids': [Command.set(self.tax_id.ids)],
-            'sale_line_ids': [Command.link(self.id)],
-            'is_downpayment': self.is_downpayment,
-        }
-        analytic_account_id = self.order_id.analytic_account_id.id
-        if self.analytic_distribution and not self.display_type:
-            res['analytic_distribution'] = self.analytic_distribution
-        if analytic_account_id and not self.display_type:
-            analytic_account_id = str(analytic_account_id)
-            if 'analytic_distribution' in res:
-                res['analytic_distribution'][analytic_account_id] = res['analytic_distribution'].get(
-                    analytic_account_id, 0) + 100
-            else:
-                res['analytic_distribution'] = {analytic_account_id: 100}
-        if optional_values:
-            res.update(optional_values)
-        if self.display_type:
-            res['account_id'] = False
+        res = super()._prepare_invoice_line(**optional_values)
+        res['purchase_price'] = self.purchase_price
         return res
