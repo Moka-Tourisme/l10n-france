@@ -3,10 +3,14 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
-import gzip
 import logging
 from datetime import datetime
 
+from pyfrdas2 import (
+    format_street_block,
+    generate_file,
+    get_partner_declaration_threshold,
+)
 from stdnum.fr.siret import is_valid
 
 from odoo import _, api, fields, models, tools
@@ -14,17 +18,6 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools.misc import format_amount, format_date
 
 logger = logging.getLogger(__name__)
-
-try:
-    from unidecode import unidecode
-except ImportError:
-    unidecode = False
-    logger.debug("Cannot import unidecode")
-try:
-    import pgpy
-except ImportError:
-    pgpy = False
-    logger.debug("Cannot import pgpy")
 
 
 FRANCE_CODES = (
@@ -109,7 +102,10 @@ class L10nFrDas2(models.Model):
         states={"done": [("readonly", True)]},
     )
     partner_declare_threshold = fields.Integer(
-        string="Partner Declaration Threshold", readonly=True
+        compute="_compute_partner_declare_threshold",
+        store=True,
+        precompute=True,
+        string="Partner Declaration Threshold",
     )
     dads_type = fields.Selection(
         [
@@ -151,6 +147,14 @@ class L10nFrDas2(models.Model):
             "A DAS2 already exists for that year!",
         )
     ]
+
+    @api.depends("year")
+    def _compute_partner_declare_threshold(self):
+        for rec in self:
+            if rec.year:
+                rec.partner_declare_threshold = get_partner_declaration_threshold(
+                    rec.year
+                )
 
     @api.model
     def _default_dads_type(self):
@@ -198,10 +202,10 @@ class L10nFrDas2(models.Model):
                 % encryption
             )
 
-            attach = self.generate_file(encryption=encryption)
+            attach = self.generate_file_and_attach(encryption=encryption)
             self.message_post(body=msg)
             # also generate a clear file, for audit purposes
-            unencrypted_attach = self.generate_file(encryption="none")
+            unencrypted_attach = self.generate_file_and_attach(encryption="none")
             vals.update(
                 {
                     "attachment_id": attach.id,
@@ -255,15 +259,6 @@ class L10nFrDas2(models.Model):
                     currency=company.currency_id.name,
                 )
             )
-        if company.fr_das2_partner_declare_threshold <= 0:
-            raise UserError(
-                _(
-                    "The DAS2 partner declaration threshold is not set on "
-                    "company '%s'."
-                )
-                % company.display_name
-            )
-        self.partner_declare_threshold = company.fr_das2_partner_declare_threshold
         das2_partners = self.env["res.partner"].search(
             [("parent_id", "=", False), ("fr_das2_type", "!=", False)]
         )
@@ -314,11 +309,8 @@ class L10nFrDas2(models.Model):
                 field_name: amount_int,
                 "parent_id": self.id,
                 "partner_id": partner.id,
-                "job": partner.fr_das2_job,
                 "note": "<ul>%s</ul>" % note,
             }
-            if partner.siren and partner.nic:
-                res["partner_siret"] = partner.siret
         return res
 
     def generate_warning_msg(self, das2_partners):
@@ -439,14 +431,14 @@ class L10nFrDas2(models.Model):
 
     def _prepare_address(self, partner):
         cstreet2 = self._prepare_field("Street2", partner, partner.street2, 32)
-        cstreet = self._prepare_field("Street", partner, partner.street, 32)
-        # specs section 5.4 : only bureau distributeur and code postal are
+        cstreet = format_street_block(partner.street)
+        # specs : only bureau distributeur and code postal are
         # required. And they say it is tolerated to set city as
         # bureau distributeur
         # And we don't set the commune field because we put the same info
-        # in bureau distributeur (section 5.4.1.3)
-        # specs section 5.4 and 5.4.1.2.b: it is possible to set the field
-        # "Adresse voie" without structuration on 32 chars => that's what we do
+        # in bureau distributeur
+        # specs 2024 : we now have to have structured adresses with a separation
+        # for the number, bis/ter and street name. We'll do our best to comply with that.
         if not partner.city:
             raise UserError(_("Missing city on partner '%s'.") % partner.display_name)
         if partner.country_id and partner.country_id.code not in FRANCE_CODES:
@@ -494,6 +486,7 @@ class L10nFrDas2(models.Model):
         company = self.company_id
         cpartner = company.partner_id
         contact = self.contact_id
+        eu_countries = self.env.ref("base.europe").country_ids
         csiren = self._prepare_field("SIREN", cpartner, cpartner.siren, 9, True)
         csiret = self._prepare_field("SIRET", cpartner, cpartner.siret, 14, True)
         cape = self._prepare_field("APE", cpartner, company.ape, 5, True)
@@ -556,7 +549,35 @@ class L10nFrDas2(models.Model):
                 raise UserError(
                     _("Missing SIRET for french partner %s.") % partner.display_name
                 )
+            if (
+                not partner.is_company
+                and partner.country_id
+                and partner.country_id.code not in FRANCE_CODES
+                and partner.country_id in eu_countries
+            ):
+                if not hasattr(partner, "birthdate_date"):
+                    raise UserError(
+                        _(
+                            "Partner '%(partner_name)s' is a physical person "
+                            "in country %(country)s which is a foreign EU country. "
+                            "So you must install the OCA module "
+                            "'partner_contact_birthdate' and set the birth date "
+                            "of this partner.",
+                            partner_name=partner.name,
+                            country=partner.country_id.name,
+                        )
+                    )
+                if not partner.birthdate_date:
+                    raise UserError(
+                        _(
+                            "Missing birth date on partner '%s'. This information is "
+                            "required for physical persons in foreign EU countries.",
+                            partner.name,
+                        )
+                    )
+
             # ligne 210 honoraire
+            birthdate = " " * 8
             if partner.is_company:
                 partner_name = self._prepare_field(
                     "Partner name", partner, partner.name, 50, True
@@ -577,6 +598,12 @@ class L10nFrDas2(models.Model):
                         "Partner name", partner, partner.name, 30, True
                     )
                     firstname = " " * 20
+                if (
+                    partner.country_id
+                    and partner.country_id in eu_countries
+                    and partner.country_id.code not in FRANCE_CODES
+                ):
+                    birthdate = partner.birthdate_date.strftime("%d%m%Y")
             address = self._prepare_address(partner)
             partner_siret = self._prepare_field(
                 "SIRET", partner, line.partner_siret, 14
@@ -616,7 +643,8 @@ class L10nFrDas2(models.Model):
                 + allow_letters
                 + " " * 2
                 + "0" * 10
-                + " " * 245
+                + birthdate
+                + " " * 237
             )
         rg = self.env["l10n.fr.das2.line"].read_group(
             [("parent_id", "=", self.id)], AMOUNT_FIELDS, []
@@ -697,7 +725,7 @@ class L10nFrDas2(models.Model):
         file_content = "\r\n".join(flines) + "\r\n"
         return file_content
 
-    def generate_file(self, encryption="prod"):
+    def generate_file_and_attach(self, encryption="prod"):
         self.ensure_one()
         assert encryption in ("prod", "test", "none")
         company = self.company_id
@@ -736,50 +764,22 @@ class L10nFrDas2(models.Model):
             )
 
         file_content = self._prepare_file()
+        # In 2025, they made it clear (at last !) that the file must be in utf-8
+        file_content_encoded = file_content.encode("utf-8")
+
         try:
-            file_content_encoded = file_content.encode("latin1")
-        except UnicodeEncodeError as e:
-            raise UserError(
-                _(
-                    "A special character in the DAS2 file is not in the latin1 "
-                    "table. Please locate this special character and replace "
-                    "it by a standard character and try again."
-                )
-            ) from e
-
-        if encryption in ("prod", "test"):
-            prefix = "DSAL_"
-            file_ext = "txt.gz.gpg"
-            key_path = (
-                "l10n_fr_das2/pgp_keys/DGFIP_TIERSDECLARANTS_%s.asc"
-                % encryption.upper()
+            file_bytes_result, filename = generate_file(
+                file_content_encoded, self.year, company.siren, encryption=encryption
             )
-            with tools.file_open(key_path, mode="rb") as key_file:
-                key_file_blob = key_file.read()
-            pubkey = pgpy.PGPKey.from_blob(key_file_blob)[0]
-            file_content_compressed = gzip.compress(file_content_encoded)
-            to_encrypt_object = pgpy.PGPMessage.new(file_content_compressed)
-            file_content_final = bytes(pubkey.encrypt(to_encrypt_object))
-        else:
-            file_content_final = file_content_encoded
-            prefix = "UNENCRYPTED_DAS2_for_audit-"
-            file_ext = "txt"
-
-        user_local_datetime = fields.Datetime.context_timestamp(self, datetime.now())
-        filename = "%(prefix)s%(year)s_%(siren)s_000_%(gentime)s.%(file_ext)s" % {
-            "prefix": prefix,
-            "year": self.year,
-            "siren": company.siren,
-            "gentime": user_local_datetime.strftime("%Y%m%d%H%M%S"),
-            "file_ext": file_ext,
-        }
+        except Exception as e:
+            raise UserError(e) from e
 
         attach = self.env["ir.attachment"].create(
             {
                 "name": filename,
                 "res_id": self.id,
                 "res_model": self._name,
-                "datas": base64.encodebytes(file_content_final),
+                "datas": base64.encodebytes(file_bytes_result),
             }
         )
         return attach

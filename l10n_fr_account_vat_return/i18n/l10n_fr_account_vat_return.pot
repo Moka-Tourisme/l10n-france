@@ -61,6 +61,61 @@ msgid "%s (add)"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid ". You can either:"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__15
+msgid "15"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__16
+msgid "16"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__17
+msgid "17"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__18
+msgid "18"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__19
+msgid "19"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__20
+msgid "20"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__21
+msgid "21"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__22
+msgid "22"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__23
+msgid "23"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_remind_deadline_day__24
+msgid "24"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__form_code__3310a
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "3310-A"
@@ -73,6 +128,53 @@ msgid "3310-CA3"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:mail.template,body_html:l10n_fr_account_vat_return.fr_vat_return_remind_mail_template
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"<p style=\"margin: 0px; padding: 0px; font-size: 12px; font-family: Arial, Helvetica, sans-serif\">I would like to remind you that we are approaching the deadline for the <t t-out=\"dict(object.fields_get('fr_vat_periodicity', 'selection')['fr_vat_periodicity']['selection'])[object.fr_vat_periodicity]\"></t> VAT return of company <t t-out=\"object.name\"></t>: the deadline is on day number <t t-out=\"object.fr_vat_remind_deadline_day\"></t> of the month.</p>\n"
+"\n"
+"<t t-if=\"ctx.get('delta_days') &gt; 0\">\n"
+"\n"
+"        <p><strong>Only <t t-out=\"ctx.get('delta_days')\"></t> day(s) before the deadline!</strong></p>\n"
+"</t>\n"
+"\n"
+"<t t-if=\"ctx.get('delta_days') == 0\">\n"
+"    <p>The deadline is today!</p>\n"
+"\n"
+"    <t t-if=\"object.fr_vat_remind_auto_generate_and_transmit\">\n"
+"        <p>The option <em>Auto-generate and Transmit on Deadline Day</em> is enabled on this company.</p>\n"
+"        <t t-if=\"ctx.get('transmit_ok')\">\n"
+"            <p><strong>The VAT return has been successfully sent via the gateway. You must now post it.</strong></p>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            <p><strong>Odoo failed to automatically generate (if not already generated) and transmit the VAT return via the gateway.</strong> You must send it today to avoid late fees!</p>\n"
+"        </t>\n"
+"        <p>Here are the logs:<br>\n"
+"            <t t-foreach=\"ctx.get('msg_list', [])\" t-as=\"msg\">\n"
+"                <t t-out=\"msg\"></t><br>\n"
+"            </t>\n"
+"        </p>\n"
+"    </t>\n"
+"    <t t-else=\"\">\n"
+"        <p><strong>You must send it today to avoid late fees!</strong></p>\n"
+"    </t>\n"
+"</t>\n"
+"\n"
+"<p style=\"margin: 0px; padding: 0px; font-size: 10px; font-family: 'Courier New', Courier, Prestige, monospace\">\n"
+"-- <br>\n"
+"Automatic e-mail sent by Odoo.\n"
+"</p>\n"
+"</div>\n"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.res_config_settings_view_form
+msgid ""
+"<span class=\"o_form_label\">Default for Autoliquidation Lines</span>\n"
+"                                    <span class=\"fa fa-lg fa-building-o\" role=\"img\"/>"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_start_company_uniq
 msgid "A VAT return with the same start date already exists in this company!"
 msgstr ""
@@ -80,8 +182,10 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_account
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__account_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__manual_account_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__account_id
 msgid "Account"
 msgstr ""
 
@@ -90,8 +194,27 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Account '%(account)s' is used as due VAT account on several auto-liquidation"
-" taxes for different rates (%(rate1).2f%% and %(rate2).2f%%)."
+"Account '%(account)s' is used as due VAT account on autoliquidation tax "
+"'%(tax)s' and also on a regular sale tax with rate %(rate).2f%%."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Account '%(account)s' is used as due VAT account on royalty autoliquidation "
+"tax '%(tax)s', but also in other taxes. This is not allowed by the OCA VAT "
+"return module for France."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Account '%(account)s' is used as due VAT account on several autoliquidation "
+"taxes for different rates (%(rate1).2f%% and %(rate2).2f%%)."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -204,6 +327,18 @@ msgid "Analytic"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_expense_analytic_distribution
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_expense_analytic_distribution
+msgid "Analytic Expense Account for Rounding"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_income_analytic_distribution
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_income_analytic_distribution
+msgid "Analytic Income Account for Rounding"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__analytic_precision
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__analytic_precision
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__analytic_precision
@@ -212,20 +347,18 @@ msgid "Analytic Precision"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_expense_analytic_distribution
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_expense_analytic_distribution
-msgid "Analytic for Expense Adjustment"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_income_analytic_distribution
-#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_income_analytic_distribution
-msgid "Analytic for Income Adjustment"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_form
 msgid "Archived"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid ""
+"As the option 'Auto-generate and Transmit on Deadline Day' is enabled on "
+"company %s, you must configure the option 'Default for Manual "
+"Autoliquidation Line'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -234,8 +367,35 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_autoliq_line__compute_type__auto
+msgid "Auto"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_remind_auto_generate_and_transmit
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_remind_auto_generate_and_transmit
+msgid "Auto-generate and Transmit on Deadline Day"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__autoliq_line_id
+msgid "Autoliq Line"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__autoliq_manual_done
+msgid "Autoliq Manual Done"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_tax__fr_vat_autoliquidation
-msgid "Auto-Liquidation"
+msgid "Autoliquidation"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__autoliq_line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
+msgid "Autoliquidation Lines"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -243,14 +403,27 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Auto-liquidation tax '%s' is not present in the tax mapping of any fiscal "
+"Autoliquidation tax '%s' is not present in the tax mapping of any fiscal "
 "position."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.actions.act_window,name:l10n_fr_account_vat_return.l10n_fr_vat_autoliq_manual_action
+msgid "Autoliquidation: Select product or service"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__state__auto
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Automatic Lines"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid ""
+"Automatic lines have been automatically generated by the scheduled action."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -349,7 +522,21 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
+msgid "Box '%s' has a push box 2 but no push box."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#, python-format
 msgid "Box '%s' has a push box but is missing a push sequence."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
+#, python-format
+msgid "Box '%s' has a push rate 2 but no push box 2."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -383,6 +570,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_reimbursement_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_autoliq_manual_form
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_exigibility_update_form
 msgid "Cancel"
 msgstr ""
@@ -437,10 +625,39 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__company_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__company_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__company_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__company_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__company_id
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Company"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Company %(company)s has a Cash Basis Journal '%(journal)s', although the "
+"company is configured for non-native VAT on payment."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Company %(company)s is configured to use the native VAT on payment, but its "
+"Cash Basis Journal is not set."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Company %(company)s is configured to use the native VAT on payment, but "
+"there is no purchase tax with 'Tax Exigibility' set to 'Based on Payment'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -452,6 +669,8 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__company_currency_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__company_currency_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__company_currency_id
 msgid "Company Currency"
 msgstr ""
 
@@ -478,13 +697,14 @@ msgid "Computation and Accounting Details"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__compute_type
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__compute_type
 msgid "Compute Type"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_line_log
-msgid "Compute log of VAT Return Line for France (CA3 line)"
+msgid "Compute log of VAT Return Line for France"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -500,9 +720,14 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__create_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__create_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_uid
 msgid "Created by"
 msgstr ""
@@ -510,9 +735,14 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__create_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__create_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__create_date
 msgid "Created on"
 msgstr ""
@@ -531,6 +761,8 @@ msgid "Creation Date is not set."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__credit
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__credit
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__accounting_method__credit
 msgid "Credit"
 msgstr ""
@@ -557,6 +789,7 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__company_currency_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__company_currency_id
 msgid "Currency"
 msgstr ""
 
@@ -566,16 +799,81 @@ msgid "Current VAT Exigibility"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__gateway_attachment_id
+msgid "Data Sent via the Gateway"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__date
+msgid "Date"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.res_config_settings_view_form
+msgid "Deadline Day"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__debit
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__debit
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_box__accounting_method__debit
 msgid "Debit"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__deductible_vat_zip_file_id
+msgid "Deductible VAT ZIP Attachment"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__deductible_vat_zip_file_datas
+msgid "Deductible VAT ZIP File"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__deductible_vat_zip_file_name
+msgid "Deductible VAT ZIP Filename"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Deductible VAT ZIP file generated."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Deductible VAT ZIP file re-generated."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_send_gateway
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_send_gateway
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.res_config_settings_view_form
+msgid "Default VAT Gateway"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_manual_autoliq_line_default_option
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_manual_autoliq_line_default_option
+msgid "Default for Manual Autoliquidation Line"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__display_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__display_name
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__display_name
 msgid "Display Name"
 msgstr ""
@@ -596,6 +894,21 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid "Do you confirm the removal of the credit VAT reimbursement?"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.actions.act_window,name:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_action
+msgid "Draft Entries: Edit Draft Journal Entries or Continue"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_ids
+msgid "Draft Journal Entries"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__draft_move_count
+msgid "Draft Move Count"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -638,7 +951,13 @@ msgid "EDI type not supported for box '%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "Edit Draft Journal Entries"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__end_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__end_date
 msgid "End Date"
 msgstr ""
 
@@ -650,6 +969,17 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__balance_ratio
 msgid "Ending Balance x Ratio"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__amount
+msgid ""
+"Enter the unpaid VAT on payment amount that Odoo cannot compute "
+"automatically because it is not linked to an invoice in Odoo (but related to"
+" the starting balance for example). This feature is useful in the first "
+"months of use of Odoo accounting, when there are unpaid VAT on payment "
+"invoices in the previous fiscal year and the accounting of the previous "
+"fiscal year was not handled in Odoo."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -671,6 +1001,20 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"Error in the generation of the journal entry: the adjustment amount is %s. "
+"The ajustment is only needed because, in the VAT journal entry, the amount "
+"of the VAT to pay (or VAT credit) is rounded (because the amounts are "
+"rounded in the VAT return) and the other amounts are not rounded.As a "
+"consequence, the amount of the adjustment should be under 6 €. This error "
+"may be caused by a bad configuration of the accounting method of some VAT "
+"boxes."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__reimbursement_end_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__end_date
 msgid "Event Date"
@@ -684,8 +1028,71 @@ msgid "Event Date is not set."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "Existing VAT return %s found."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__l10n_fr_rounding_difference_loss_account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__l10n_fr_rounding_difference_loss_account_id
+msgid "Expense Account for Rounding"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Expense account for rounding is not set on company '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_autoliq_line__autoliq_type__extracom
+msgid "Extracom"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_reimbursement
 msgid "FR VAT Reimbursement (3519)"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__fr_vat_return_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__fr_vat_return_id
+msgid "FR VAT Return"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_autoliq_manual
+msgid "FR VAT Return: ask product or service for autoliquidation lines"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_autoliq_manual_line
+msgid "FR VAT Return: ask product or service on specific journal items"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_vat_draft_move_option
+msgid "FR VAT Return: show or continue"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:mail.template,subject:l10n_fr_account_vat_return.fr_vat_return_remind_mail_template
+msgid "FR VAT return reminder for {{object.name}}"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:mail.template,name:l10n_fr_account_vat_return.fr_vat_return_remind_mail_template
+msgid "FR VAT return: mail reminder"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.actions.server,name:l10n_fr_account_vat_return.fr_vat_return_cron_ir_actions_server
+#: model:ir.cron,cron_name:l10n_fr_account_vat_return.fr_vat_return_cron
+msgid ""
+"FR VAT return: remind and auto-generate+transmit on deadline if forgotten"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -758,8 +1165,30 @@ msgid "Full Label"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__gateway_available
+msgid "Gateway Available"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__gateway_test_mode
+msgid "Gateway Test Mode"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
+msgid ""
+"Gateway is in <strong>test</strong> mode: this VAT return will not be sent "
+"to DGFiP."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
 msgid "Generate Automatic Lines"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
+msgid "Generate Deductible VAT Justification File"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -775,9 +1204,14 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__id
 msgid "ID"
 msgstr ""
@@ -820,8 +1254,48 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__ignore_draft_moves
+msgid "Ignore Draft Moves"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "Ignore and Continue"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_draft_move_option.py:0
+#, python-format
+msgid "Ignoring %(count)s draft journal entries dated before %(end_date)s."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__l10n_fr_rounding_difference_profit_account_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__l10n_fr_rounding_difference_profit_account_id
+msgid "Income Account for Rounding"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Income account for rounding is not set on company '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_autoliq_line_form
+msgid "Information for VAT Return"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__value_manual_int
 msgid "Integer Value"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_autoliq_line__autoliq_type__intracom
+msgid "Intracom"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -830,25 +1304,24 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__journal_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_move
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__move_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__move_id
 msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_move_line
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__move_line_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__move_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_autoliq_line_form
 msgid "Journal Item"
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"Journal entry '%(move)s' dated %(date)s is inside or before the VAT period "
-"%(vat_period)s and has an unreconciled journal item with an %(autoliq_type)s"
-" autoliquidation due VAT account '%(account)s', but it is not a supplier "
-"invoice/refund. That journal item should be reconciled."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -866,16 +1339,23 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__label
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_name
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__label
 msgid "Label"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line____last_update
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option____last_update
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -883,9 +1363,14 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__write_uid
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__write_uid
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -893,11 +1378,21 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__write_date
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_draft_move_option__write_date
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual__line_ids
+msgid "Line"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -913,6 +1408,7 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__manual
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_manual
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_autoliq_line__compute_type__manual
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__manual
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_box_search
 msgid "Manual"
@@ -922,6 +1418,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__state__manual
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Manual Lines"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
+msgid "Manual Unpaid VAT on Payment Lines"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -947,6 +1448,13 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Method %s not available. This should never happen."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Missing Due VAT Base on box '%s' which is a Due VAT box."
@@ -964,6 +1472,11 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "Missing print caracteristics on box '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_vat_autoliq_manual_line__option__mix
+msgid "Mix"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -998,6 +1511,11 @@ msgid "Name or Code"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__vat_on_payment_option__native
+msgid "Native Odoo"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__negative
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_negative
 msgid "Negative"
@@ -1029,10 +1547,17 @@ msgstr ""
 #, python-format
 msgid ""
 "No account mapping on fiscal position <a href=# data-oe-"
-"model=account.fiscal.position data-oe-"
-"id=%(fiscal_position_id)d>%(fiscal_position)s</a>. If this fiscal position "
-"is not only used for purchase but also for sale, you must configure an "
-"account mapping on revenue accounts."
+"model=account.fiscal.position data-oe-id=%(fiscal_position_id)d "
+">%(fiscal_position)s</a>. If this fiscal position is not only used for "
+"purchase but also for sale, you must configure an account mapping on revenue"
+" accounts."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "No gateway selected for VAT return %s."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1041,7 +1566,13 @@ msgid "No sections"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__vat_on_payment_option__non_native
+msgid "Non-native (recommended)"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__note
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__note
 msgid "Note"
 msgstr ""
 
@@ -1075,8 +1606,44 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
+"Odoo cannot generate the deductible VAT justification file because the "
+"journal items with deductible VAT accounts of the journal entry %(move)s are"
+" not reconciled."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_autoliq_manual_form
+msgid ""
+"Odoo could not automatically compute the distribution between product and "
+"service on the journal items below that have a VAT autoliquidation account. "
+"Please indicate manually for each journal item below if the autoliquidation "
+"is related to a product or a service (you can also select 'mix' and indicate"
+" a percentage for the product part)."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "Odoo raised an error, see detailed below."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
 "On box '%s', the Account Code is not set. You may want to setup a specific "
 "account on that box."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"On journal item '%(move_line)s', the product ratio must be between 0%% and "
+"100%% (current value: %(ratio)s %%)."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1094,11 +1661,18 @@ msgid "Page"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#: model:ir.model,name:l10n_fr_account_vat_return.model_account_partial_reconcile
-msgid "Partial Reconcile"
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__parent_id
+msgid "Parent"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__account_tax__fr_vat_autoliquidation__partial
+msgid "Partial"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__partner_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__partner_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_company_partner_id
 msgid "Partner"
 msgstr ""
@@ -1116,6 +1690,11 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__period_balance
 msgid "Period Balance"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return_line_log__compute_type__period_balance_sale
+msgid "Period Balance in Sale Journal"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1145,14 +1724,46 @@ msgid "Print Position Y"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_vat_autoliq_manual_line__option__product
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_manual_autoliq_line_default_option__product
+msgid "Product"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__product_ratio
+msgid "Product Ratio"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__product_ratio
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_autoliq_line_tree
+msgid "Product Ratio (%)"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__option
+msgid "Product or Service"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__push_box_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_push_box_id
 msgid "Push Box"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__push_box_2_id
+msgid "Push Box 2"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__push_rate
 msgid "Push Rate"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__push_rate_2
+msgid "Push Rate 2"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1170,6 +1781,17 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__vat_periodicity__3
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__3
 msgid "Quarterly"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
+msgid "Reconcile Journal Entry Again"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__ref
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__ref
+msgid "Reference"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1233,15 +1855,36 @@ msgid "Section"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__send_gateway
+msgid "Send Gateway"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
+msgid "Send via Gateway"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__state__sent
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_search
 msgid "Sent"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__sent_datetime
+msgid "Sent Date"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__sequence
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__box_sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_vat_autoliq_manual_line__option__service
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_manual_autoliq_line_default_option__service
+msgid "Service"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1286,6 +1929,13 @@ msgid "Sub-Section"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "Successful reconciliation in account(s) %s."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_account_tax
 msgid "Tax"
 msgstr ""
@@ -1295,18 +1945,8 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"Tax '%(tax)s' has an account for invoice (%(invoice_account)s) which is "
-"different from the account for refund (%(refund_account)s). This scenario "
-"not supported."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"Tax '%s' should have only one distribution line for credit notes configured "
-"with an account and with '100%% of tax'."
+"Tax '%(tax)s' is not symetric between distribution for invoices and "
+"distribution for refunds."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1361,6 +2001,50 @@ msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "The VAT return has been successfully sent via the gateway."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The amount of cell X4 (Crédit d'accise sur les énergies imputé à la TVA) is "
+"%(energy_vat_credit)s €, but the VAT to pay amount is only %(sub_total)s €."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The amount of cell X4 (Crédit d'accise sur les énergies imputé à la TVA) is "
+"%(energy_vat_credit)s €, but there is no VAT to pay (cell TD)."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The autoliquidation tax '%(tax)s' is set on the tax mapping of fiscal "
+"position '%(fp)s' which is configured with type '%(fp_fr_vat_type)s'. "
+"Autoliquidation taxes should only be configured on fiscal positions with "
+"type '%(fp_fr_vat_type_intracom_b2b)s', '%(fp_fr_vat_type_extracom)s' or "
+"'%(fp_fr_vat_type_france_exo)s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "The automatic lines have been successfully generated."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
@@ -1374,7 +2058,7 @@ msgstr ""
 #, python-format
 msgid ""
 "The balance of account '%(account)s' is %(balance)s. It should always be "
-"positive."
+"positive or null."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1382,13 +2066,6 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
 msgid "The box '%s' is a negative box but its EDI Type is not 'MOA'."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
-#, python-format
-msgid "The box '%s' must have a code."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1452,6 +2129,35 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The journal entry '%s' is not posted, so it is not possible to reconcile "
+"again."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The journal entry of the previous VAT return '%s' is in draft. You must post"
+" it before continuing to process this VAT return (or cancel it if you "
+"encoded and posted the journal entry of the previous VAT return manually)."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The journal item '%(line)s' has the autoliquidation VAT account "
+"'%(account)s' and is in the sale journal '%(journal)s'. Autoliquidation VAT "
+"accounts should never be found in sale journals."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_line_form
 msgid ""
 "The logs lines below have a negative total, so they were moved from their "
@@ -1498,6 +2204,20 @@ msgid "The start date (%s) must be the first day of the month."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_deductible_vat_zip_other_threshold_positive
+msgid "The threshold to provide non-asset invoices in ZIP must be positive."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"The transmission of the VAT return %s via a gateway is not possible. It is "
+"only possible for monthly and quarterly periodicity."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
@@ -1517,8 +2237,8 @@ msgstr ""
 #, python-format
 msgid ""
 "There are %(account_count)s accounts whose code start with "
-"%(account_prefix)s in company '%(company)s' : %(account_list)s. Odoo expects"
-" to have only one."
+"%(account_prefix)s in company '%(company)s': %(account_list)s. Odoo expects "
+"to have only one."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1526,8 +2246,8 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There are %(count)d accounts %(account_code)s %(account_name)s in the chart "
-"of account of company '%(company)s'. This scenario is not supported."
+"There are no regular sale taxes with UNECE Tax Type set to 'VAT' in company "
+"'%s'."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1535,9 +2255,8 @@ msgstr ""
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
 #, python-format
 msgid ""
-"There are still On Payment taxes in company '%s'. To handle on payment VAT, "
-"this module uses a different implementation than the native solution based "
-"on a configuration parameter on taxes."
+"There are still %(count)s On Payment tax(es) in company '%(company)s', "
+"although the company is configured for non-native VAT on payment."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1551,28 +2270,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"There is a problem on the %(autoliq_type)s %(move_type)s '%(move)s': check "
-"that the invoice lines have a single autoliquidation tax, and not the old "
-"dual-tax system for autoliquidation which was used by Odoo up to version "
-"12.0 included."
-msgstr ""
-
-#. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_box_unique_page_x_y
 msgid "There is already a box at this position!"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
-#. odoo-python
-#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
-#, python-format
-msgid ""
-"There is no account %(account_code)s %(account_name)s in the chart of "
-"account of company '%(company)s'."
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "There is/are"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1581,7 +2285,7 @@ msgstr ""
 #, python-format
 msgid ""
 "There is/are %(count)d draft journal entry/entries dated before %(date)s. "
-"You should post it/them or delete it/them."
+"You should post it/them, delete it/them or postpone it/them."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1597,6 +2301,20 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_box_nref_code_unique
 msgid "This N-REF code already exists."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "This VAT return has been <strong>manually marked as sent</strong>."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "This VAT return has been auto-generated by the scheduled action."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1620,8 +2338,23 @@ msgid "This field is used by the French VAT return module"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.res_config_settings_view_form
+msgid ""
+"This is the default option for unreconciled VAT autoliquidation journal "
+"items for which Odoo cannot compute the option automatically (usually "
+"correspond to journal items that are not in the purchase journal). This "
+"option is required only when the option 'Auto-generate and Transmit on "
+"Deadline Day' is enabled."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_line_unique_return_box
 msgid "This line already exists!"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.constraint,message:l10n_fr_account_vat_return.constraint_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line_parent_account_uniq
+msgid "This manual unpaid VAT on payment line already exists."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1635,8 +2368,41 @@ msgid "This sequence already exists."
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__deductible_vat_zip_other_threshold
+msgid "Threshold to provide non-asset invoices in ZIP"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__account_tax__fr_vat_autoliquidation__total
+msgid "Total"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "Trying to create a new VAT return with start date %s..."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "Trying to generate the automatic lines..."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "Trying to send the VAT return via the gateway..."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position__fr_vat_type
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_fiscal_position_template__fr_vat_type
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__autoliq_type
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_autoliq_manual_line__autoliq_type
 msgid "Type"
 msgstr ""
 
@@ -1660,6 +2426,16 @@ msgid "Unpaid VAT on Payment"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__unpaid_vat_on_payment_manual_line_ids
+msgid "Unpaid Vat On Payment Manual Line"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__unpaid_vat_on_payment_manual_line_filter_account_ids
+msgid "Unpaid Vat On Payment Manual Line Filter Account"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__update_type
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_exigibility_update_form
 msgid "Update"
@@ -1679,6 +2455,23 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_vat_exigibility_update__update_date
 msgid "Update Since"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_remind_user_ids
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_remind_user_ids
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.res_config_settings_view_form
+msgid "Users to Remind"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__account_id
+msgid "VAT Account"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__amount
+msgid "VAT Amount"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1706,17 +2499,35 @@ msgid "VAT Periodicity"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__vat_rate_int
+msgid "VAT Rate"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_box__due_vat_rate
 msgid "VAT Rate x100"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
 #: model:ir.actions.act_window,name:l10n_fr_account_vat_return.l10n_fr_account_vat_return_action
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__parent_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line__parent_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_line_log__parent_parent_id
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_reimbursement__return_id
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line__parent_id
 #: model:ir.ui.menu,name:l10n_fr_account_vat_return.l10n_fr_account_vat_return_menu
 msgid "VAT Return"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_autoliq_line
+msgid "VAT Return Autoliq Line for France"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_company__fr_vat_remind_deadline_day
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_res_config_settings__fr_vat_remind_deadline_day
+msgid "VAT Return Deadline Day"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1727,6 +2538,11 @@ msgstr ""
 #. module: l10n_fr_account_vat_return
 #: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_line
 msgid "VAT Return Line for France (CA3 line)"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model:ir.model,name:l10n_fr_account_vat_return.model_l10n_fr_account_vat_return_unpaid_vat_on_payment_manual_line
+msgid "VAT Return Unpaid VAT On Payment Manual Line"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
@@ -1761,6 +2577,11 @@ msgid "VAT on Payment"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__vat_on_payment_option
+msgid "VAT on Payment Option"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_bank_statement_line__out_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_move__out_vat_on_payment
 #: model:ir.model.fields,field_description:l10n_fr_account_vat_return.field_account_payment__out_vat_on_payment
@@ -1768,7 +2589,44 @@ msgid "VAT on Payment for Customer Invoices"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return_autoliq_line__vat_rate_int
+msgid "VAT rate x 100"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "VAT return %s has no lines."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "VAT return %s successfully generated."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/res_company.py:0
+#, python-format
+msgid "VAT return automatically sent via the gateway by the scheduled action."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid ""
+"VAT return successfully sent via %(gw)s%(test_mode_str)s. Technical data "
+"sent: <a href=# data-oe-model=ir.attachment data-oe-"
+"id=%(attach_id)s>%(attach_name)s</a>"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_reimbursement_form
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_autoliq_manual_form
 msgid "Validate"
 msgstr ""
 
@@ -1798,6 +2656,14 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_fr_account_vat_return
+#: model:ir.model.fields,help:l10n_fr_account_vat_return.field_l10n_fr_account_vat_return__deductible_vat_zip_other_threshold
+msgid ""
+"When generating the deductible VAT justification ZIP file, do not provide a "
+"copy of the non-asset invoice whose total untaxed amount in company currency"
+" is under that threshold."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
 #. odoo-python
 #: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_box.py:0
 #, python-format
@@ -1815,4 +2681,45 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__l10n_fr_account_vat_return__vat_periodicity__12
 #: model:ir.model.fields.selection,name:l10n_fr_account_vat_return.selection__res_company__fr_vat_periodicity__12
 msgid "Yearly"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_account_vat_return_form
+msgid "You are about to transmit your VAT return. Do you confirm?"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/wizards/l10n_fr_vat_autoliq_manual.py:0
+#, python-format
+msgid "You must select product or service for journal item '%s'."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "draft journal entry/entries dated before"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "edit the draft journal entry/entries,"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_fr_account_vat_return.l10n_fr_vat_draft_move_option_form
+msgid "ignore it/them and continue to process the VAT return."
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "in <strong>test mode</strong>"
+msgstr ""
+
+#. module: l10n_fr_account_vat_return
+#. odoo-python
+#: code:addons/l10n_fr_account_vat_return/models/l10n_fr_account_vat_return.py:0
+#, python-format
+msgid "⚠ Manual line"
 msgstr ""

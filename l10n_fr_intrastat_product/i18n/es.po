@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-26 02:41+0000\n"
-"PO-Revision-Date: 2023-09-20 11:09+0000\n"
+"PO-Revision-Date: 2024-03-18 15:37+0000\n"
 "Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: Spanish (https://www.transifex.com/oca/teams/23907/es/)\n"
 "Language: es\n"
@@ -36,10 +36,10 @@ msgid ""
 "been generated automatically by Odoo.<br><br>\n"
 "\n"
 "<t t-if=\"ctx.get('exception')\">\n"
-"                When trying to generate the lines of the <t t-out="
-"\"dict(object.fields_get('declaration_type', 'selection')['declaration_type']"
-"['selection'])[object.declaration_type]\"></t> EMEBI, the following error "
-"was encountered:<br><br>\n"
+"                When trying to generate the lines of the <t t-"
+"out=\"dict(object.fields_get('declaration_type', 'selection')"
+"['declaration_type']['selection'])[object.declaration_type]\"></t> EMEBI, "
+"the following error was encountered:<br><br>\n"
 "\n"
 "<t t-out=\"ctx.get('error_msg')\"></t><br><br>\n"
 "\n"
@@ -81,8 +81,8 @@ msgstr ""
 "<div estilo=\"margen: 0px; relleno: 0px;\">\n"
 "<p estilo=\"margen: 0px; relleno: 0px; tamaño de fuente: 12px; familia de "
 "fuentes: Arial, Helvetica, sans-serif\">\n"
-"Les recuerdo que nos acercamos a la fecha límite del EMEBI del mes <t t-out="
-"\"object.year_month\"></t>.<br><br>\n"
+"Les recuerdo que nos acercamos a la fecha límite del EMEBI del mes <t t-"
+"out=\"object.year_month\"></t>.<br><br>\n"
 "\n"
 "        Como no había <t t-out=\"dict(object.fields_get('declaration_type', "
 "'selection')['declaration_type']['selection'])[object.declaration_type]\"></"
@@ -156,13 +156,13 @@ msgstr "Llegadas"
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
 msgid ""
-"Bad VAT number '%(vat)s' on line %(line_number)d. Brexit took place on "
-"January 1st 2021 and companies in Northern Ireland have a new VAT number "
-"starting with 'XI'."
+"Bad VAT number '%(vat)s' on declaration line %(line_number)d. Brexit took "
+"place on January 1st 2021 and companies in Northern Ireland have a new VAT "
+"number starting with 'XI'."
 msgstr ""
-"Número de IVA incorrecto '%(vat)s' en la línea %(line_number)d. El Brexit "
-"tuvo lugar el 1 de enero de 2021 y las empresas de Irlanda del Norte tienen "
-"un nuevo número de IVA que empieza por \"XI\"."
+"Número de IVA incorrecto '%(vat)s' en la línea de declaración "
+"%(line_number)d. El Brexit tuvo lugar el 1 de enero de 2021 y las empresas "
+"de Irlanda del Norte tienen un nuevo número de IVA que empieza por \"XI\"."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__code
@@ -232,9 +232,7 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: l10n_fr_intrastat_product
-#: model:ir.actions.act_window,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_action
 #: model:ir.model,name:l10n_fr_intrastat_product.model_intrastat_product_declaration
-#: model:ir.ui.menu,name:l10n_fr_intrastat_product.l10n_fr_intrastat_product_declaration_menu
 msgid "EMEBI"
 msgstr "EMEBI"
 
@@ -334,22 +332,23 @@ msgstr "Última actualización el"
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing Country Code of Origin/Destination on line %d."
-msgstr "Falta el código de país de origen/destino en la línea %d."
+msgid "Missing H.S. code on declaration line %d."
+msgstr "Falta código H.S. en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing H.S. code on line %d."
-msgstr "Falta código H.S. en la línea %d."
+msgid "Missing VAT number on declaration line %d."
+msgstr "Falta el número de IVA en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing VAT number on line %d."
-msgstr "Falta el número de IVA en la línea %d."
+msgid "Missing country code of origin/destination on declaration line %d."
+msgstr ""
+"Falta el código de país de origen/destino en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -366,43 +365,52 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing fiscal value on line %d."
-msgstr "Falta el valor fiscal en la línea %d."
-
-#. module: l10n_fr_intrastat_product
-#. odoo-python
-#: code:addons/l10n_fr_intrastat_product/models/stock.py:0
-#, python-format
-msgid "Missing partner on warehouse '%s'."
-msgstr "Falta socio en el almacén '%s'."
+msgid "Missing fiscal value on declaration line %d."
+msgstr "Falta valor fiscal en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing product country of origin code on line %d."
-msgstr "Falta el código del país de origen del producto en la línea %d."
+msgid "Missing intrastat transaction on declaration line %d."
+msgstr "Falta transacción intrastat en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing quantity on line %d."
-msgstr "Falta la cantidad en la línea %d."
+msgid "Missing mode of transport on declaration line %d."
+msgstr "Falta el modo de transporte en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Missing weight on line %d."
-msgstr "Falta el peso en la línea %d."
+msgid "Missing product country of origin code on declaration line %d."
+msgstr ""
+"Falta el código del país de origen del producto en la línea de declaración "
+"%d."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Mode of transport is not set on line %d."
-msgstr "El modo de transporte no está configurado en la línea %d."
+msgid "Missing quantity on declaration line %d."
+msgstr "Falta cantidad en la línea de declaración %d."
+
+#. module: l10n_fr_intrastat_product
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
+#, python-format
+msgid "Missing region code on declaration line %d."
+msgstr "Falta código de región en la línea de declaración %d."
+
+#. module: l10n_fr_intrastat_product
+#. odoo-python
+#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
+#, python-format
+msgid "Missing weight on declaration line %d."
+msgstr "Falta peso en la línea de declaración %d."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,field_description:l10n_fr_intrastat_product.field_intrastat_fr_regime__name
@@ -413,18 +421,6 @@ msgstr "Nombre"
 #: model_terms:ir.ui.view,arch_db:l10n_fr_intrastat_product.intrastat_fr_regime_search
 msgid "Name or Code"
 msgstr "Nombre o código"
-
-#. module: l10n_fr_intrastat_product
-#. odoo-python
-#: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
-#, python-format
-msgid ""
-"No XML file generated because the <b>Customs Accreditation Identifier</b> is "
-"not set on the accounting configuration page of the company '%s'."
-msgstr ""
-"No se genera fichero XML porque el <b>Identificador de Acreditación "
-"Aduanera</b> no está configurado en la página de configuración contable de "
-"la empresa '%s'."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -474,8 +470,10 @@ msgstr "Códigos de régimen"
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Region Code is not set on line %d."
-msgstr "El código de región no está configurado en la línea %d."
+msgid "The Customs Accreditation Identifier is not set for the company '%s'."
+msgstr ""
+"El identificador de acreditación aduanera no está configurado para la "
+"empresa \"%s\"."
 
 #. module: l10n_fr_intrastat_product
 #. odoo-python
@@ -513,8 +511,9 @@ msgstr "Importe fiscal total en la divisa de la empresa de la declaración."
 #. odoo-python
 #: code:addons/l10n_fr_intrastat_product/models/intrastat_product_declaration.py:0
 #, python-format
-msgid "Transaction code on line %d should have 2 digits."
-msgstr "El código de transacción de la línea %d debería tener 2 dígitos."
+msgid "Transaction code on declaration line %d should have 2 digits."
+msgstr ""
+"El código de transacción en la línea de declaración %d debe tener 2 dígitos."
 
 #. module: l10n_fr_intrastat_product
 #: model:ir.model.fields,help:l10n_fr_intrastat_product.field_intrastat_fr_regime__fiscal_value_multiplier
@@ -536,6 +535,69 @@ msgstr ""
 "{{dict(object.fields_get('declaration_type', 'selection')['declaration_type']"
 "['selection'])[object.declaration_type]}} EMEBI {{object.year_month}} for "
 "{{object.company_id.name}}"
+
+#, python-format
+#~ msgid "Missing partner on warehouse '%s'."
+#~ msgstr "Falta socio en el almacén '%s'."
+
+#, python-format
+#~ msgid ""
+#~ "Bad VAT number '%(vat)s' on line %(line_number)d. Brexit took place on "
+#~ "January 1st 2021 and companies in Northern Ireland have a new VAT number "
+#~ "starting with 'XI'."
+#~ msgstr ""
+#~ "Número de IVA incorrecto '%(vat)s' en la línea %(line_number)d. El Brexit "
+#~ "tuvo lugar el 1 de enero de 2021 y las empresas de Irlanda del Norte "
+#~ "tienen un nuevo número de IVA que empieza por \"XI\"."
+
+#, python-format
+#~ msgid "Missing Country Code of Origin/Destination on line %d."
+#~ msgstr "Falta el código de país de origen/destino en la línea %d."
+
+#, python-format
+#~ msgid "Missing H.S. code on line %d."
+#~ msgstr "Falta código H.S. en la línea %d."
+
+#, python-format
+#~ msgid "Missing VAT number on line %d."
+#~ msgstr "Falta el número de IVA en la línea %d."
+
+#, python-format
+#~ msgid "Missing fiscal value on line %d."
+#~ msgstr "Falta el valor fiscal en la línea %d."
+
+#, python-format
+#~ msgid "Missing product country of origin code on line %d."
+#~ msgstr "Falta el código del país de origen del producto en la línea %d."
+
+#, python-format
+#~ msgid "Missing quantity on line %d."
+#~ msgstr "Falta la cantidad en la línea %d."
+
+#, python-format
+#~ msgid "Missing weight on line %d."
+#~ msgstr "Falta el peso en la línea %d."
+
+#, python-format
+#~ msgid "Mode of transport is not set on line %d."
+#~ msgstr "El modo de transporte no está configurado en la línea %d."
+
+#, python-format
+#~ msgid ""
+#~ "No XML file generated because the <b>Customs Accreditation Identifier</b> "
+#~ "is not set on the accounting configuration page of the company '%s'."
+#~ msgstr ""
+#~ "No se genera fichero XML porque el <b>Identificador de Acreditación "
+#~ "Aduanera</b> no está configurado en la página de configuración contable "
+#~ "de la empresa '%s'."
+
+#, python-format
+#~ msgid "Region Code is not set on line %d."
+#~ msgstr "El código de región no está configurado en la línea %d."
+
+#, python-format
+#~ msgid "Transaction code on line %d should have 2 digits."
+#~ msgstr "El código de transacción de la línea %d debería tener 2 dígitos."
 
 #~ msgid "Partner"
 #~ msgstr "Empresa"

@@ -45,7 +45,7 @@ class PosPaymentMethod(models.Model):
     )
     def _check_fr_caisse_ap_ip(self):
         for method in self:
-            if method.use_payment_terminal == "caisse_ap_ip":
+            if method.use_payment_terminal == "fr-caisse_ap_ip":
                 if not method.fr_caisse_ap_ip_address:
                     raise ValidationError(
                         _(
@@ -124,12 +124,10 @@ class PosPaymentMethod(models.Model):
                 return False
         # CJ identifiant protocole concert : no interest, but required
         # CA POS number
-        # BF partial payments: 0=refused 1=accepted
         msg_dict = {
             "CJ": "012345678901",
             "CA": "01",
             "CE": cur_num,
-            "BF": "0",
         }
         amount_compare = currency.compare_amounts(amount, 0)
         # CD Action type: 0=debit (regular payment) 1=credit (reimbursement)
@@ -204,14 +202,15 @@ class PosPaymentMethod(models.Model):
         answer = False
         try:
             with socket.create_connection((ip_addr, port), timeout=timeout_sec) as sock:
-                sock.settimeout(None)
                 sock.send(msg_bytes)
                 answer_bytes = sock.recv(BUFFER_SIZE)
                 answer = answer_bytes.decode("ascii")
                 logger.debug("Answer received from payment terminal: %s", answer)
         except Exception as e:
+            logger.warning("Exception raised in socket to payment terminal: %s", e)
             error_msg = _(
-                "Failed to connect to the payment terminal on %(ip_addr)s:%(port)s\n%(error)s",
+                "Failure in the connection to the payment terminal on "
+                "%(ip_addr)s port %(port)s: %(error)s.",
                 ip_addr=ip_addr,
                 port=port,
                 error=e,
@@ -235,10 +234,10 @@ class PosPaymentMethod(models.Model):
 
     def _fr_caisse_ap_ip_answer(self, answer, msg_dict):
         answer_dict = self._fr_caisse_ap_ip_parse_answer(answer)
-        check_res = self._fr_caisse_ap_ip_check_answer(answer_dict, msg_dict)
-        if isinstance(check_res, dict):
-            return check_res
         if answer_dict.get("AE") == "10":
+            check_res = self._fr_caisse_ap_ip_check_answer(answer_dict, msg_dict)
+            if isinstance(check_res, dict):
+                return check_res
             res = self._fr_caisse_ap_ip_prepare_success(answer_dict)
         elif answer_dict.get("AE") == "01":
             res = self._fr_caisse_ap_ip_prepare_failure(answer_dict)
@@ -260,7 +259,6 @@ class PosPaymentMethod(models.Model):
             "CB": {"fixed_size": False, "required": True, "label": "amount"},
             "CD": {"fixed_size": True, "required": True, "label": "action pay/reimb"},
             "CE": {"fixed_size": True, "required": True, "label": "currency"},
-            "BF": {"fixed_size": True, "required": False, "label": "partial payment"},
         }
         fail_res = {
             "payment_status": "issue",

@@ -24,6 +24,18 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
         domain="[('company_id', '=', company_id), ('type', '=', 'general')]",
     )
+    l10n_fr_rounding_difference_loss_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_loss_account_id",
+        readonly=False,
+        domain="[('company_id', '=', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'expense')]",
+    )
+    l10n_fr_rounding_difference_profit_account_id = fields.Many2one(
+        related="company_id.l10n_fr_rounding_difference_profit_account_id",
+        readonly=False,
+        domain="[('company_id', '=', company_id), "
+        "('deprecated', '=', False), ('account_type', '=', 'income')]",
+    )
     fr_vat_expense_analytic_distribution = fields.Json(
         related="company_id.fr_vat_expense_analytic_distribution",
         readonly=False,
@@ -33,10 +45,25 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
     analytic_precision = fields.Integer(related="company_id.analytic_precision")
+    fr_vat_manual_autoliq_line_default_option = fields.Selection(
+        related="company_id.fr_vat_manual_autoliq_line_default_option", readonly=False
+    )
     fr_vat_bank_account_id = fields.Many2one(
         related="company_id.fr_vat_bank_account_id",
         readonly=False,
         domain="[('partner_id','=', fr_vat_company_partner_id), "
-        "'|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        "('company_id', 'in', (False, company_id))]",
     )
     fr_vat_company_partner_id = fields.Many2one(related="company_id.partner_id")
+    fr_vat_send_gateway = fields.Selection(
+        related="company_id.fr_vat_send_gateway", readonly=False
+    )
+    fr_vat_remind_user_ids = fields.Many2many(
+        related="company_id.fr_vat_remind_user_ids", readonly=False
+    )
+    fr_vat_remind_deadline_day = fields.Selection(
+        related="company_id.fr_vat_remind_deadline_day", readonly=False
+    )
+    fr_vat_remind_auto_generate_and_transmit = fields.Boolean(
+        related="company_id.fr_vat_remind_auto_generate_and_transmit", readonly=False
+    )

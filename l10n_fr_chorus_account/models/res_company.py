@@ -42,9 +42,8 @@ class ResCompany(models.Model):
     fr_chorus_check_commitment_number = fields.Boolean(
         string="Check Commitment Numbers",
         help="If enabled, Odoo will check the commitment number "
-        "('engagement juridique' in French) upon invoice validation. "
-        "It corresponds to the 'customer order reference' in "
-        "the administrative tongue. "
+        "upon invoice validation. This commitment number must be set "
+        "in the field 'Customer Reference' of the invoice. "
         "It will also check it upon sale order validation if the module "
         "l10n_fr_chorus_sale is installed.",
     )
@@ -79,7 +78,7 @@ class ResCompany(models.Model):
         oauth_secret = tools.config.get("chorus_api_oauth_secret")
         if not oauth_id:
             msg = _(
-                "Missing key 'chorus_api_oauth_id' in Odoo server " "configuration file"
+                "Missing key 'chorus_api_oauth_id' in Odoo server configuration file."
             )
             if raise_if_ko:
                 raise UserError(msg)
@@ -89,7 +88,7 @@ class ResCompany(models.Model):
         if not oauth_secret:
             msg = _(
                 "Missing key 'chorus_api_oauth_secret' in Odoo server "
-                "configuration file"
+                "configuration file."
             )
             if raise_if_ko:
                 raise UserError(msg)
@@ -119,7 +118,8 @@ class ResCompany(models.Model):
             }
         elif raise_if_ko:
             raise UserError(
-                _("Missing Chorus API parameters on the company %s") % self.display_name
+                _("Missing Chorus API parameters on the company '%s'.")
+                % self.display_name
             )
         else:
             logger.warning(
@@ -303,6 +303,15 @@ class ResCompany(models.Model):
 
         answer = r.json()
         logger.info("Chorus WS answer payload: %s", answer)
+        if (
+            answer.get("parametresRetour")
+            and answer["parametresRetour"].get("pages")
+            and answer["parametresRetour"]["pages"] > 1
+        ):
+            logger.warning(
+                "The Chorus answer payload has several pages. Make sure the code loops "
+                "on the multiple pages or increase the nbResultatsParPage in the query."
+            )
         return (answer, session)
 
     def chorus_expiry_remind_user_list(self):

@@ -45,6 +45,7 @@ class ChorusFlow(models.Model):
         "chorus_flow_id",
         "move_id",
         string="Initial Invoices",
+        readonly=True,
         help="Invoices in the flow before potential rejections",
     )
     invoice_ids = fields.One2many(
@@ -185,6 +186,9 @@ class ChorusFlow(models.Model):
         url_path = "factures/v1/rechercher/fournisseur"
         payload = {
             "numeroFluxDepot": self.name,
+            "rechercheFactureParFournisseur": {
+                "nbResultatsParPage": len(self.initial_invoice_ids) + 2,
+            },
         }
         answer, session = self.env["res.company"].chorus_post(
             api_params, url_path, payload
@@ -234,7 +238,7 @@ class ChorusFlow(models.Model):
                     raise UserError(
                         _(
                             "The Chorus Invoice Identifiers are already set "
-                            "for flow %s"
+                            "for flow %s."
                         )
                         % flow.name
                     )
