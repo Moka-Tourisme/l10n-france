@@ -94,12 +94,13 @@ class SaleOrderLine(models.Model):
         Left on the sold quantity, the order showed a margin the VAT on margin
         was not computed from: two margins for one line.
         """
-        super()._compute_margin()
+        res = super()._compute_margin()
         for line in self:
             line.margin = (line.price_subtotal
                            - line.purchase_price * line._margin_purchased_qty())
             line.margin_percent = (
                 line.price_subtotal and line.margin / line.price_subtotal)
+        return res
 
     def _margin_purchased_qty(self):
         """The quantity the supplier bills, in the unit this line is sold in.

@@ -17,28 +17,39 @@ class TestMarginPurchasedQty(AccountTestInvoicingCommon):
     def setUpClass(cls, chart_template_ref="l10n_fr.l10n_fr_pcg_chart_template"):
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(user=cls.env.ref("base.user_root"))
-        cls.margin_tax = cls.env["account.tax"].search([
-            ("name", "=", "TVA sur marge 20% TTC - Vente"),
-            ("company_id", "=", cls.env.company.id),
-        ], limit=1)
+        cls.margin_tax = cls.env["account.tax"].search(
+            [
+                ("name", "=", "TVA sur marge 20% TTC - Vente"),
+                ("company_id", "=", cls.env.company.id),
+            ],
+            limit=1,
+        )
         seller = cls.env["res.partner"].create({"name": "Seller"})
-        product = cls.env["product.product"].create({
-            "name": "Guided tour",
-            "type": "service",
-            "service_to_purchase": True,
-            "vat_on_margin": True,
-            "seller_ids": [(0, 0, {"partner_id": seller.id, "price": 110})],
-        })
-        cls.order = cls.env["sale.order"].create({
-            "partner_id": cls.env.ref("base.partner_admin").id,
-            "order_line": [Command.create({
-                "product_id": product.id,
-                "product_uom_qty": 35,
-                "price_unit": 150,
-                "purchase_price": 110,
-                "tax_id": [(6, 0, cls.margin_tax.ids)],
-            })],
-        })
+        product = cls.env["product.product"].create(
+            {
+                "name": "Guided tour",
+                "type": "service",
+                "service_to_purchase": True,
+                "vat_on_margin": True,
+                "seller_ids": [(0, 0, {"partner_id": seller.id, "price": 110})],
+            }
+        )
+        cls.order = cls.env["sale.order"].create(
+            {
+                "partner_id": cls.env.ref("base.partner_admin").id,
+                "order_line": [
+                    Command.create(
+                        {
+                            "product_id": product.id,
+                            "product_uom_qty": 35,
+                            "price_unit": 150,
+                            "purchase_price": 110,
+                            "tax_id": [(6, 0, cls.margin_tax.ids)],
+                        }
+                    )
+                ],
+            }
+        )
         cls.line = cls.order.order_line
 
     def assertMarginBuys(self, bought):
@@ -49,7 +60,8 @@ class TestMarginPurchasedQty(AccountTestInvoicingCommon):
         """
         self.assertAlmostEqual(
             self.line.margin_amount_untaxed,
-            150 * self.line.product_uom_qty - 110 * bought)
+            150 * self.line.product_uom_qty - 110 * bought,
+        )
 
     def test_margin_follows_purchase_quantity(self):
         self.order.action_confirm()
@@ -69,8 +81,7 @@ class TestMarginPurchasedQty(AccountTestInvoicingCommon):
         # 150 x 35 - 110 x 33 = 1620 is tax-included, so 1620 x 20 / 120.
         self.assertAlmostEqual(self.order.amount_tax, 270.0)
         # The margin shown on the order says the same: one margin, not two.
-        self.assertAlmostEqual(
-            self.line.margin, self.line.price_subtotal - 110 * 33)
+        self.assertAlmostEqual(self.line.margin, self.line.price_subtotal - 110 * 33)
 
     def test_margin_without_purchase_uses_sold_quantity(self):
         self.assertFalse(self.line.purchase_line_ids)
