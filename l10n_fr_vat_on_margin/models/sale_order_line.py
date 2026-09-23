@@ -75,6 +75,32 @@ class SaleOrderLine(models.Model):
 
             line.margin_amount_untaxed = margin_brut_ttc
 
+    @api.depends('margin_amount_untaxed')
+    def _compute_amount(self):
+        """Recompute the line amounts when only the margin moves.
+
+        The margin feeds the tax engine, so it sets the VAT and the untaxed
+        amount. Native dependencies only list quantity, price, discount and
+        taxes: a purchase quantity corrected alone left the stored VAT on the
+        old margin while the totals widget, computed live, showed the new one.
+        """
+        return super()._compute_amount()
+
+    @api.depends('purchase_line_ids.product_qty', 'purchase_line_ids.product_uom',
+                 'purchase_line_ids.state')
+    def _compute_margin(self):
+        """sale_margin's margin, on the quantity bought like the VAT one.
+
+        Left on the sold quantity, the order showed a margin the VAT on margin
+        was not computed from: two margins for one line.
+        """
+        super()._compute_margin()
+        for line in self:
+            line.margin = (line.price_subtotal
+                           - line.purchase_price * line._margin_purchased_qty())
+            line.margin_percent = (
+                line.price_subtotal and line.margin / line.price_subtotal)
+
     def _margin_purchased_qty(self):
         """The quantity the supplier bills, in the unit this line is sold in.
 
@@ -107,7 +133,8 @@ class SaleOrderLine(models.Model):
             res['price_unit_margin'] = self.margin_amount_untaxed
         return res
 
-    @api.depends('state', 'price_reduce', 'product_id', 'untaxed_amount_invoiced', 'qty_delivered', 'product_uom_qty')
+    @api.depends('state', 'price_reduce', 'product_id', 'untaxed_amount_invoiced', 'qty_delivered', 'product_uom_qty',
+                 'margin_amount_untaxed')
     def _compute_untaxed_amount_to_invoice(self):
         """ Total of remaining amount to invoice on the sale order line (taxes excl.) as
                 total_sol - amount already invoiced

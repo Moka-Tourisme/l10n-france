@@ -65,6 +65,12 @@ class TestMarginPurchasedQty(AccountTestInvoicingCommon):
 
         self.assertEqual(self.line.product_uom_qty, 35)
         self.assertMarginBuys(33)
+        # The stored VAT follows, not only the totals widget: the margin
+        # 150 x 35 - 110 x 33 = 1620 is tax-included, so 1620 x 20 / 120.
+        self.assertAlmostEqual(self.order.amount_tax, 270.0)
+        # The margin shown on the order says the same: one margin, not two.
+        self.assertAlmostEqual(
+            self.line.margin, self.line.price_subtotal - 110 * 33)
 
     def test_margin_without_purchase_uses_sold_quantity(self):
         self.assertFalse(self.line.purchase_line_ids)
