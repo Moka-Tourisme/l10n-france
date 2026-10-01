@@ -1,0 +1,248 @@
+avoir-mixte-cii.xml          EXTENDED-CTC-FR-CII.xslt                 rules= 119 errors=0 warnings=0
+avoir-mixte-cii.xml          Factur-X_1.09_EN16931.xsl                rules= 125 errors=4 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:TypeCode' is marked as not used in the given context.
+avoir-mixte-cii.xml          BR-FR-Flux2-Schematron-CII.xslt          rules=  78 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+avoir-mixte-facturx.xml      Factur-X_1.09_EXTENDED.xsl               rules= 131 errors=0 warnings=0
+avoir-mixte-facturx.xml      Factur-X_1.09_EN16931.xsl                rules= 125 errors=4 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:TypeCode' is marked as not used in the given context.
+avoir-mixte-facturx.xml      BR-FR-Flux2-Schematron-CII.xslt          rules=  78 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+avoir-mixte-ubl.xml          EN16931-UBL-validation.xslt              rules=  78 errors=0 warnings=3
+    [warning] UBL-CR-026: [UBL-CR-026]-A UBL invoice should not include the BillingReference DocumentTypeCode
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+avoir-mixte-ubl.xml          EXTENDED-CTC-FR-UBL.xslt                 rules=  80 errors=0 warnings=0
+avoir-mixte-ubl.xml          BR-FR-Flux2-Schematron-UBL.xslt          rules=  77 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+deux-regimes-cii.xml         EXTENDED-CTC-FR-CII.xslt                 rules= 116 errors=0 warnings=2
+    [warning] BR-FXEXT-E-08ini: [BR-FXEXT-E-08ini] warning - Code : E, rate : 0, ExemptText : Régime particulier – Agences de voyages, Exemptcode : VATEX-EU-D, basisAmount : 2400, SumBT131ini : 2900, NBlinesini : 2, sumAllowBT-92ini : 0, sumChargesBT-9
+    [warning] BR-FXEXT-E-08ini: [BR-FXEXT-E-08ini] warning - Code : E, rate : 0, ExemptText : Régime particulier – Biens d'occasion, Exemptcode : VATEX-EU-F, basisAmount : 500, SumBT131ini : 2900, NBlinesini : 2, sumAllowBT-92ini : 0, sumChargesBT-99in
+deux-regimes-cii.xml         Factur-X_1.09_EN16931.xsl                rules= 122 errors=8 warnings=0
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000256: [BR-E-01]-An Invoice that contains an Invoice line (BG-25), a Document level allowance (BG-20) or a Document level charge (BG-21) where the VAT category code (BT-151, BT-95 or BT-102) is “Exempt from VAT” shall contain e
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+deux-regimes-cii.xml         BR-FR-Flux2-Schematron-CII.xslt          rules=  75 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+deux-regimes-facturx.xml     Factur-X_1.09_EXTENDED.xsl               rules= 127 errors=0 warnings=2
+    [warning] None: [BR-FXEXT-E-08ini] - Without Exemption reason EN16931_2017 - In a VAT breakdown (BG-23) where VAT category code (BT-118) is equal to “E” ("Exempt from VAT"), Absolute Value of (VAT category taxable amount (BT-116) - ∑ In
+    [warning] None: [BR-FXEXT-E-08ini] - Without Exemption reason EN16931_2017 - In a VAT breakdown (BG-23) where VAT category code (BT-118) is equal to “E” ("Exempt from VAT"), Absolute Value of (VAT category taxable amount (BT-116) - ∑ In
+deux-regimes-facturx.xml     Factur-X_1.09_EN16931.xsl                rules= 122 errors=8 warnings=0
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000256: [BR-E-01]-An Invoice that contains an Invoice line (BG-25), a Document level allowance (BG-20) or a Document level charge (BG-21) where the VAT category code (BT-151, BT-95 or BT-102) is “Exempt from VAT” shall contain e
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+deux-regimes-facturx.xml     BR-FR-Flux2-Schematron-CII.xslt          rules=  75 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+deux-regimes-ubl.xml         EN16931-UBL-validation.xslt              rules=  78 errors=3 warnings=2
+    [fatal] BR-E-01: [BR-E-01]-An Invoice that contains an Invoice line (BG-25), a Document level allowance (BG-20) or a Document level charge (BG-21) where the VAT category code (BT-151, BT-95 or BT-102) is "Exempt from VAT" shall contain e
+    [fatal] BR-E-08: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [fatal] BR-E-08: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+deux-regimes-ubl.xml         EXTENDED-CTC-FR-UBL.xslt                 rules=  81 errors=0 warnings=2
+    [warning] BR-FREXT-E-08ini: [BR-FREXT-E-08ini] warning - Num Fact : FAC/2026/00017, Code : E, rate : 0, ExemptText : Régime particulier – Agences de voyages, Exemptcode : VATEX-EU-D, basisAmount : 2400, SumBT131ini : 2900, NBlinesini : 2, sumAllowB
+    [warning] BR-FREXT-E-08ini: [BR-FREXT-E-08ini] warning - Num Fact : FAC/2026/00017, Code : E, rate : 0, ExemptText : Régime particulier – Biens d'occasion, Exemptcode : VATEX-EU-F, basisAmount : 500, SumBT131ini : 2900, NBlinesini : 2, sumAllowBT-9
+deux-regimes-ubl.xml         BR-FR-Flux2-Schematron-UBL.xslt          rules=  74 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+marge-cii.xml                EXTENDED-CTC-FR-CII.xslt                 rules=  86 errors=0 warnings=0
+marge-cii.xml                Factur-X_1.09_EN16931.xsl                rules=  92 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-cii.xml                BR-FR-Flux2-Schematron-CII.xslt          rules=  60 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-et-exoneree-cii.xml    EXTENDED-CTC-FR-CII.xslt                 rules= 143 errors=0 warnings=2
+    [warning] BR-FXEXT-E-08ini: [BR-FXEXT-E-08ini] warning - Code : E, rate : 0, ExemptText : Exempt based on article 132 of Council Directive 2006/112/EC, Exemptcode : VATEX-EU-132, basisAmount : 50, SumBT131ini : 2450, NBlinesini : 2, sumAllowBT-92in
+    [warning] BR-FXEXT-E-08ini: [BR-FXEXT-E-08ini] warning - Code : E, rate : 0, ExemptText : Régime particulier – Agences de voyages, Exemptcode : VATEX-EU-D, basisAmount : 2400, SumBT131ini : 2450, NBlinesini : 2, sumAllowBT-92ini : 0, sumChargesBT-9
+marge-et-exoneree-cii.xml    Factur-X_1.09_EN16931.xsl                rules= 149 errors=8 warnings=0
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000256: [BR-E-01]-An Invoice that contains an Invoice line (BG-25), a Document level allowance (BG-20) or a Document level charge (BG-21) where the VAT category code (BT-151, BT-95 or BT-102) is “Exempt from VAT” shall contain e
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-et-exoneree-cii.xml    BR-FR-Flux2-Schematron-CII.xslt          rules=  90 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-et-exoneree-facturx.xml Factur-X_1.09_EXTENDED.xsl               rules= 154 errors=0 warnings=2
+    [warning] None: [BR-FXEXT-E-08ini] - Without Exemption reason EN16931_2017 - In a VAT breakdown (BG-23) where VAT category code (BT-118) is equal to “E” ("Exempt from VAT"), Absolute Value of (VAT category taxable amount (BT-116) - ∑ In
+    [warning] None: [BR-FXEXT-E-08ini] - Without Exemption reason EN16931_2017 - In a VAT breakdown (BG-23) where VAT category code (BT-118) is equal to “E” ("Exempt from VAT"), Absolute Value of (VAT category taxable amount (BT-116) - ∑ In
+marge-et-exoneree-facturx.xml Factur-X_1.09_EN16931.xsl                rules= 149 errors=8 warnings=0
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000228: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [None] FX-SCH-A-000256: [BR-E-01]-An Invoice that contains an Invoice line (BG-25), a Document level allowance (BG-20) or a Document level charge (BG-21) where the VAT category code (BT-151, BT-95 or BT-102) is “Exempt from VAT” shall contain e
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-et-exoneree-facturx.xml BR-FR-Flux2-Schematron-CII.xslt          rules=  90 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-et-exoneree-ubl.xml    EN16931-UBL-validation.xslt              rules=  94 errors=3 warnings=2
+    [fatal] BR-E-01: [BR-E-01]-An Invoice that contains an Invoice line (BG-25), a Document level allowance (BG-20) or a Document level charge (BG-21) where the VAT category code (BT-151, BT-95 or BT-102) is "Exempt from VAT" shall contain e
+    [fatal] BR-E-08: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [fatal] BR-E-08: [BR-E-08]-In a VAT breakdown (BG-23) where the VAT category code (BT-118) is "Exempt from VAT" the VAT category taxable amount (BT-116) shall equal the sum of Invoice line net amounts (BT-131) minus the sum of Document l
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+marge-et-exoneree-ubl.xml    EXTENDED-CTC-FR-UBL.xslt                 rules=  98 errors=0 warnings=2
+    [warning] BR-FREXT-E-08ini: [BR-FREXT-E-08ini] warning - Num Fact : FAC/2026/00016, Code : E, rate : 0, ExemptText : Exempt based on article 132 of Council Directive 2006/112/EC, Exemptcode : VATEX-EU-132, basisAmount : 50, SumBT131ini : 2450, NBli
+    [warning] BR-FREXT-E-08ini: [BR-FREXT-E-08ini] warning - Num Fact : FAC/2026/00016, Code : E, rate : 0, ExemptText : Régime particulier – Agences de voyages, Exemptcode : VATEX-EU-D, basisAmount : 2400, SumBT131ini : 2450, NBlinesini : 2, sumAllowB
+marge-et-exoneree-ubl.xml    BR-FR-Flux2-Schematron-UBL.xslt          rules=  89 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+marge-facturx.xml            Factur-X_1.09_EXTENDED.xsl               rules=  98 errors=0 warnings=0
+marge-facturx.xml            Factur-X_1.09_EN16931.xsl                rules=  92 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-facturx.xml            BR-FR-Flux2-Schematron-CII.xslt          rules=  60 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-negative-cii.xml       EXTENDED-CTC-FR-CII.xslt                 rules=  86 errors=0 warnings=0
+marge-negative-cii.xml       Factur-X_1.09_EN16931.xsl                rules=  92 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-negative-cii.xml       BR-FR-Flux2-Schematron-CII.xslt          rules=  60 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-negative-facturx.xml   Factur-X_1.09_EXTENDED.xsl               rules=  98 errors=0 warnings=0
+marge-negative-facturx.xml   Factur-X_1.09_EN16931.xsl                rules=  92 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-negative-facturx.xml   BR-FR-Flux2-Schematron-CII.xslt          rules=  60 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-negative-ubl.xml       EN16931-UBL-validation.xslt              rules=  60 errors=0 warnings=2
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+marge-negative-ubl.xml       EXTENDED-CTC-FR-UBL.xslt                 rules=  62 errors=0 warnings=0
+marge-negative-ubl.xml       BR-FR-Flux2-Schematron-UBL.xslt          rules=  59 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+marge-remise-cii.xml         EXTENDED-CTC-FR-CII.xslt                 rules=  97 errors=0 warnings=0
+marge-remise-cii.xml         Factur-X_1.09_EN16931.xsl                rules= 105 errors=5 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-remise-cii.xml         BR-FR-Flux2-Schematron-CII.xslt          rules=  66 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-remise-facturx.xml     Factur-X_1.09_EXTENDED.xsl               rules= 110 errors=0 warnings=0
+marge-remise-facturx.xml     Factur-X_1.09_EN16931.xsl                rules= 105 errors=5 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+marge-remise-facturx.xml     BR-FR-Flux2-Schematron-CII.xslt          rules=  66 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+marge-remise-ubl.xml         EN16931-UBL-validation.xslt              rules=  72 errors=0 warnings=4
+    [warning] UBL-CR-480: [UBL-CR-480]-A UBL invoice should not include the AllowanceCharge TaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-481: [UBL-CR-481]-A UBL invoice should not include the AllowanceCharge TaxCategory TaxExemptionReason
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+marge-remise-ubl.xml         EXTENDED-CTC-FR-UBL.xslt                 rules=  74 errors=0 warnings=0
+marge-remise-ubl.xml         BR-FR-Flux2-Schematron-UBL.xslt          rules=  66 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+marge-ubl.xml                EN16931-UBL-validation.xslt              rules=  60 errors=0 warnings=2
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+marge-ubl.xml                EXTENDED-CTC-FR-UBL.xslt                 rules=  62 errors=0 warnings=0
+marge-ubl.xml                BR-FR-Flux2-Schematron-UBL.xslt          rules=  59 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+mixte-cii.xml                EXTENDED-CTC-FR-CII.xslt                 rules= 113 errors=0 warnings=0
+mixte-cii.xml                Factur-X_1.09_EN16931.xsl                rules= 119 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+mixte-cii.xml                BR-FR-Flux2-Schematron-CII.xslt          rules=  75 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+mixte-facturx.xml            Factur-X_1.09_EXTENDED.xsl               rules= 125 errors=0 warnings=0
+mixte-facturx.xml            Factur-X_1.09_EN16931.xsl                rules= 119 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+mixte-facturx.xml            BR-FR-Flux2-Schematron-CII.xslt          rules=  75 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+mixte-ubl.xml                EN16931-UBL-validation.xslt              rules=  76 errors=0 warnings=2
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+mixte-ubl.xml                EXTENDED-CTC-FR-UBL.xslt                 rules=  79 errors=0 warnings=0
+mixte-ubl.xml                BR-FR-Flux2-Schematron-UBL.xslt          rules=  74 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:TypeCode' is marked as not used in the given context.
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+    [None] None: Element 'ram:TypeCode' is marked as not used in the given context.
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+    [warning] UBL-CR-026: [UBL-CR-026]-A UBL invoice should not include the BillingReference DocumentTypeCode
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".
+exoneree-ordinaire-cii.xml   EXTENDED-CTC-FR-CII.xslt                 rules=  84 errors=0 warnings=0
+exoneree-ordinaire-cii.xml   Factur-X_1.09_EN16931.xsl                rules=  90 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+exoneree-ordinaire-cii.xml   BR-FR-Flux2-Schematron-CII.xslt          rules=  60 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+exoneree-ordinaire-facturx.xml Factur-X_1.09_EXTENDED.xsl               rules=  95 errors=0 warnings=0
+exoneree-ordinaire-facturx.xml Factur-X_1.09_EN16931.xsl                rules=  90 errors=3 warnings=0
+    [None] FX-SCH-A-000026: Value of 'ram:ID' is not allowed.
+    [None] None: Element 'ram:ExemptionReason' is marked as not used in the given context.
+    [None] None: Element 'ram:ExemptionReasonCode' is marked as not used in the given context.
+exoneree-ordinaire-facturx.xml BR-FR-Flux2-Schematron-CII.xslt          rules=  60 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: BR-FR-12/BT-49 : Le BT-49 est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: BR-FR-13/BT-34 : Le BT-34 est obligatoire. Valeur actuelle : BT-34="".
+exoneree-ordinaire-ubl.xml   EN16931-UBL-validation.xslt              rules=  59 errors=0 warnings=2
+    [warning] UBL-CR-600: [UBL-CR-600]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReasonCode
+    [warning] UBL-CR-601: [UBL-CR-601]-A UBL invoice should not include the InvoiceLine Item ClassifiedTaxCategory TaxExemptionReason
+exoneree-ordinaire-ubl.xml   EXTENDED-CTC-FR-UBL.xslt                 rules=  61 errors=0 warnings=0
+exoneree-ordinaire-ubl.xml   BR-FR-Flux2-Schematron-UBL.xslt          rules=  59 errors=2 warnings=0
+    [fatal] BR-FR-12_BT-49: [BR-FR-12/BT-49] : Le BT-49 (cbc:EndpointID) est obligatoire. Valeur actuelle : BT-49="".
+    [fatal] BR-FR-13_BT-34: [BR-FR-13/BT-34] : Le BT-34 (cbc:EndpointID du vendeur) est obligatoire. Valeur actuelle : BT-34="".

@@ -1,0 +1,61 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_fr_vat_on_margin_einvoicing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 12:22+0000\n"
+"PO-Revision-Date: 2026-10-01 12:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_fr_vat_on_margin_einvoicing
+#: model:ir.model,name:l10n_fr_vat_on_margin_einvoicing.model_account_move
+msgid "Journal Entry"
+msgstr "Pièce comptable"
+
+#. module: l10n_fr_vat_on_margin_einvoicing
+#: model:ir.model,name:l10n_fr_vat_on_margin_einvoicing.model_account_move_line
+msgid "Journal Item"
+msgstr "Écriture comptable"
+
+#. module: l10n_fr_vat_on_margin_einvoicing
+#. odoo-python
+#: code:addons/l10n_fr_vat_on_margin_einvoicing/models/account_move_line.py:0
+#, python-format
+msgid "On invoice '%(inv)s', invoice line '%(inv_line)s': %(errors)s"
+msgstr ""
+"Sur la facture '%(inv)s', ligne de facture '%(inv_line)s' : %(errors)s"
+
+#. module: l10n_fr_vat_on_margin_einvoicing
+#: model:ir.model,name:l10n_fr_vat_on_margin_einvoicing.model_account_tax
+msgid "Tax"
+msgstr "Taxe"
+
+#. module: l10n_fr_vat_on_margin_einvoicing
+#. odoo-python
+#: code:addons/l10n_fr_vat_on_margin_einvoicing/models/account_tax.py:0
+#, python-format
+msgid ""
+"Tax '%(tax)s' must have both the 'VAT on Margin' option and the 'Margin "
+"Percentage' computation, or neither."
+msgstr ""
+"La taxe '%(tax)s' doit avoir à la fois l'option 'TVA sur marge' et le calcul "
+"'Pourcentage de la marge', ou aucun des deux."
+
+#. module: l10n_fr_vat_on_margin_einvoicing
+#. odoo-python
+#: code:addons/l10n_fr_vat_on_margin_einvoicing/models/account_tax.py:0
+#, python-format
+msgid ""
+"VAT on margin tax '%(tax)s' must have the UNECE Tax Category 'E' and the VAT"
+" Exemption Reason of its margin scheme: %(reasons)s."
+msgstr ""
+"La taxe de TVA sur marge '%(tax)s' doit avoir la catégorie UNECE 'E' et le "
+"motif d'exonération de TVA de son régime de marge : %(reasons)s."
