@@ -151,14 +151,3 @@ class PayFIPTransaction(models.Model):
             _logger.info(message)
             self.write({'payfip_state': result, 'payfip_amount': payfip_amount})
             self._set_error(message)
-
-    def _cron_check_payfip_transaction_status(self):
-        """ Poll PayFIP for the status of transactions that are not in a final state yet. """
-        transactions = self.search([
-            ('state', 'not in', ['done', 'cancel']),
-            ('provider_code', '=', 'payfip'),
-        ])
-        for transaction in transactions:
-            transaction._process(
-                'payfip', {'idop': transaction.payfip_operation_identifier})
-        return True

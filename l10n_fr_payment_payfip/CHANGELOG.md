@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [19.0.1.0.1] 2026-10-29
+### Removed
+- The scheduled action "Check PayFIP Transaction Status", which asked PayFIP for the result of every unfinished transaction every 2 minutes. PayFIP notifies us (IPN and return of the customer).
+- Unfinished transactions older than 48 hours are cancelled at update.
+
 ## [19.0.1.0.0] 2026-06-11
 ### Migration to Odoo 19.0
 - Adapted to the refactored `payment` framework:
